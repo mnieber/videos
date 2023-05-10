@@ -10,15 +10,20 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "classnames": "^2.3.2",
     "mobx": "^6.9.0",
     "mobx-react-lite": "^3.4.3",
+    "ramda": "^0.29.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-flip-toolkit": "^7.0.17",
+    "react-keyboard-event-handler": "^1.5.4",
     "sass": "^1.62.1"
   },
   "devDependencies": {
+    "@types/classnames": "^2.3.1",
     "@types/node": "^20.1.1",
+    "@types/ramda": "^0.29.1",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@typescript-eslint/eslint-plugin": "^5.57.1",
@@ -28,6 +33,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.3.4",
     "typescript": "^5.0.2",
-    "vite": "^4.3.2"
+    "vite": "^4.3.2",
+    "vite-plugin-checker": "^0.6.0"
   }
 }

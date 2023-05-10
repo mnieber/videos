@@ -1,17 +1,32 @@
+import { Bullets } from '/src/scenes/components/Bullets';
 import { SceneView } from '/src/scenes/components/SceneView';
-import { ScriptProvider } from '/src/script/components/ScriptProvider';
+import { Step } from '/src/scenes/components/Step';
+import { useSteps } from '/src/scenes/hooks/useSteps';
+import { cn } from '/src/utils/classnames';
 
 // Import styles
 import './App.scss';
 
 function App() {
+  const steps = useSteps('App');
+
   return (
-    <ScriptProvider>
+    <div className={cn('App')}>
+      <Step id={steps.create()}>
+        <div>Hello</div>
+      </Step>
+      <Step id={steps.create()}>
+        <div>Friend</div>
+      </Step>
       <SceneView />
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </ScriptProvider>
+      <Bullets
+        points={[
+          'Vite is a new build tool for modern web development',
+          'Vite is fast',
+          'Vite is extensible',
+        ]}
+      />
+    </div>
   );
 }
 
