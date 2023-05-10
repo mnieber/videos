@@ -5,7 +5,9 @@ import './index.css';
 import { ScriptKeyHandler } from '/src/script/components/ScriptKeyHandler';
 import { ScriptProvider } from '/src/script/components/ScriptProvider';
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+const strict = false;
+
+const body = (
   <React.StrictMode>
     <ScriptProvider>
       <ScriptKeyHandler>
@@ -14,3 +16,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     </ScriptProvider>
   </React.StrictMode>
 );
+
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as HTMLElement
+);
+
+root.render(strict ? <React.StrictMode>{body}</React.StrictMode> : body);

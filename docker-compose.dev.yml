@@ -10,6 +10,6 @@ services:
       - ./css-styles/.env/dev.injected.env
     image: video_frontend_dev
     ports:
-      - "5173:5173"
+      - 5173:5173
     volumes:
       - ./css-styles:/app/src

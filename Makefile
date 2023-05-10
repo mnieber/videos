@@ -7,5 +7,8 @@ compile-env:
 	cd ${ROOT_DIR}/env/dev && compile-env env-spec.yaml
 
 create-opt-paths:
-	sudo touch    /opt/video/frontend/fish_history
-	sudo echo     "- cmd: echo 'start of the fish history'"  | sudo tee /opt/video/frontend/fish_history > /dev/null
+	sudo mkdir -p /opt/projects/vidlito/frontend
+	sudo touch    /opt/projects/video/frontend/fish_history
+	sudo echo     "- cmd: echo 'start of the fish history'"  | sudo tee /opt/projects/video/frontend/fish_history > /dev/null
+	sudo chmod -R 777 -p /opt/projects/vidlito
+

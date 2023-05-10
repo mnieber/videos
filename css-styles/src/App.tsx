@@ -11,7 +11,8 @@ function App() {
   const steps = useSteps('App');
 
   return (
-    <div className={cn('App')}>
+    <div className={cn('App')} tabIndex={0}>
+      <h1>App</h1>
       <Step id={steps.create()}>
         <div>Hello</div>
       </Step>

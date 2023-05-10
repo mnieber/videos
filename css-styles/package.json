@@ -18,7 +18,8 @@
     "react-dom": "^18.2.0",
     "react-flip-toolkit": "^7.0.17",
     "react-keyboard-event-handler": "^1.5.4",
-    "sass": "^1.62.1"
+    "sass": "^1.62.1",
+    "tailwindcss": "^3.3.2"
   },
   "devDependencies": {
     "@types/classnames": "^2.3.1",

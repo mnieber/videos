@@ -7,7 +7,9 @@ export class Script {
   @observable step: number = 0;
 
   @action addStep(id: string) {
-    this.rootScene.steps.push(id);
+    if (!this.rootScene.steps.includes(id)) {
+      this.rootScene.steps.push(id);
+    }
   }
 
   @action bumpStep() {
@@ -15,7 +17,7 @@ export class Script {
   }
 
   isVisible(id: string) {
-    return this.rootScene.steps.indexOf(id) >= this.step;
+    return this.step > this.rootScene.steps.indexOf(id);
   }
 
   constructor() {}

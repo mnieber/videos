@@ -9,7 +9,7 @@ export const ScriptKeyHandler = (props: PropsT) => {
   const script = useScript();
 
   const keyHandlers = {
-    'ctrl+enter': () => {
+    space: () => {
       script.bumpStep();
     },
   };
