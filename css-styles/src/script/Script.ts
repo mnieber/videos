@@ -16,7 +16,7 @@ export class Script {
     this.stepNr += 1;
   }
 
-  @computed step() {
+  @computed get step() {
     return this.rootScene.steps[this.stepNr];
   }
 

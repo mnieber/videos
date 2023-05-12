@@ -19,7 +19,7 @@ export const SceneView = observer(
 
     return (
       <p className="read-the-docs">
-        <img src={myGif} alt="my-gif" />
+        {false && <img src={myGif} alt="my-gif" />}
         {`There are ${scene.steps.length} steps. At stepNr ${script.stepNr}`}
       </p>
     );

@@ -1,5 +1,6 @@
 import { Bullets } from '/src/scenes/components/Bullets';
 import { SceneView } from '/src/scenes/components/SceneView';
+import { useSteps } from '/src/scenes/hooks/useSteps';
 import { cn } from '/src/utils/classnames';
 
 export type PropsT = {
@@ -7,6 +8,8 @@ export type PropsT = {
 };
 
 export const Dashboard = (props: PropsT) => {
+  const steps = useSteps('App');
+
   return (
     <div
       className={cn(
@@ -19,48 +22,25 @@ export const Dashboard = (props: PropsT) => {
       )}
       tabIndex={0}
     >
+      <SceneView />
+      <Bullets stepId={steps.create()} bullets={[["Let's go"], ['Come on']]} />
       <Bullets
-        id="try"
-        content={[
-          {
-            bullets: [
-              [
-                'Vite is a new build tool for modern web development',
-                [
-                  //
-                  'Vite is fast',
-                  'Vite is extensible',
-                ],
-              ],
+        stepId={steps.create()}
+        bullets={[
+          [
+            'Vite is a new build tool for modern web development',
+            [
+              //
+              'Vite is fast',
+              'Vite is extensible',
             ],
-          },
-          {
-            audio: 'Welcome to vite',
-            bullets: [['You can be quick']],
-          },
+          ],
         ]}
       />
-      <SceneView />
       <Bullets
-        id="vite"
-        content={[
-          {
-            bullets: [
-              [
-                'Vite is a new build tool for modern web development',
-                [
-                  //
-                  'Vite is fast',
-                  'Vite is extensible',
-                ],
-              ],
-            ],
-          },
-          {
-            audio: 'Welcome to vite',
-            bullets: [['You can be quick']],
-          },
-        ]}
+        stepId={steps.create()}
+        bullets={[['You can be quick']]}
+        audio="Welcome to vite"
       />
     </div>
   );

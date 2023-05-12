@@ -1,59 +1,36 @@
 import { observer } from 'mobx-react-lite';
 import { withDefaultProps } from '/src/app/defaultProps';
 import { Step } from '/src/scenes/components/Step';
-import { useSteps } from '/src/scenes/hooks/useSteps';
-import { useScript } from '/src/script/hooks/useScript';
-import { ignore } from '/src/utils/ignore';
 
 type BulletPointT = string;
 type NestedBulletsT = Array<BulletPointT | NestedBulletsT>;
 type FlattenedBulletT = [BulletPointT, number]; // Tuple of bullet point and nesting level
 
-export type ContentT = {
+export type PropsT = {
+  stepId: string;
   bullets: NestedBulletsT[];
   audio?: string;
-};
-
-export type PropsT = {
-  id: string;
-  content: ContentT[];
 };
 
 const DefaultProps = {};
 
 export const Bullets = observer(
   withDefaultProps((props: PropsT & typeof DefaultProps) => {
-    const steps = useSteps('App');
-
-    const script = useScript();
-    const scene = script.rootScene;
-
-    const divs = props.content.map((content, i) => {
-      const flatBulletPoints = _flattenBullets(content.bullets);
-      const bulletPoints = flatBulletPoints.map((bulletPoint, j) => {
-        return (
-          <div
-            key={`${props.id}-${i}-${j}`}
-            style={{ marginLeft: bulletPoint[1] * 16 }}
-          >
-            {bulletPoint[0]}
-          </div>
-        );
-      });
-
+    const flatBulletPoints = _flattenBullets(props.bullets);
+    const bulletPoints = flatBulletPoints.map((bulletPoint, idx) => {
+      const marginLeft = bulletPoint[1] * 16;
       return (
-        <Step
-          key={`${props.id}-${i}`}
-          id={steps.create()}
-          audio={content.audio}
-        >
-          {bulletPoints}
-        </Step>
+        <div key={`${props.stepId}-${idx}`} style={{ marginLeft: marginLeft }}>
+          {bulletPoint[0]}
+        </div>
       );
     });
 
-    ignore(props, scene);
-    return <>{divs}</>;
+    return (
+      <Step id={props.stepId} audio={props.audio}>
+        {bulletPoints}
+      </Step>
+    );
   }, DefaultProps)
 );
 
