@@ -1951,6 +1951,11 @@ tsutils@^3.21.0:
   dependencies:
     tslib "^1.8.1"
 
+tts-react@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/tts-react/-/tts-react-1.2.0.tgz#cd73bcaecc54845a7445c0afc72d77fcd511775d"
+  integrity sha512-+uOyN12XBsEdm+ri84hcgC0B2REqtaQSV3KAVLoIBIodCJ6ypuGprnpcx7xUBSM3KiZ4IAqBxK8LfHj+DvgS2w==
+
 type-check@^0.4.0, type-check@~0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/type-check/-/type-check-0.4.0.tgz#07b8203bfa7056c0657050e3ccd2c37730bab8f1"

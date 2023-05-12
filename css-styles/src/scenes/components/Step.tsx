@@ -1,9 +1,10 @@
 import { observer } from 'mobx-react-lite';
+import { Speak } from '/src/scenes/components/Speak';
 import { useScript } from '/src/script/hooks/useScript';
 
 export type PropsT = React.PropsWithChildren<{
   id: string;
-  audioUrl?: string;
+  audio?: string;
 }>;
 
 export const Step = observer((props: PropsT) => {
@@ -16,13 +17,11 @@ export const Step = observer((props: PropsT) => {
     return null;
   }
 
-  const audioDiv = (
-    <audio autoPlay={true} controls={true} src={props.audioUrl}></audio>
-  );
+  const audioDiv = <Speak>{props.audio}</Speak>;
 
   return (
     <>
-      {props.audioUrl ? audioDiv : null}
+      {props.audio ? audioDiv : null}
       {props.children}
     </>
   );
