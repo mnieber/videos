@@ -1,5 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import { withDefaultProps } from '/src/app/defaultProps';
+import myGif from '/src/gif/test.gif';
 import { useScript } from '/src/script/hooks/useScript';
 import { ignore } from '/src/utils/ignore';
 
@@ -17,7 +18,10 @@ export const SceneView = observer(
     const scene = script.rootScene;
 
     return (
-      <p className="read-the-docs">{`There are ${scene.steps.length} steps. At step ${script.step}`}</p>
+      <p className="read-the-docs">
+        <img src={myGif} alt="my-gif" />
+        {`There are ${scene.steps.length} steps. At stepNr ${script.stepNr}`}
+      </p>
     );
   }, DefaultProps)
 );

@@ -1,10 +1,10 @@
-import { action, makeObservable, observable } from 'mobx';
+import { action, computed, makeObservable, observable } from 'mobx';
 import { Scene } from 'src/scenes/Scene';
 import { createScene } from '/src/scenes/Scene';
 
 export class Script {
   @observable rootScene: Scene = createScene();
-  @observable step: number = 0;
+  @observable stepNr: number = 0;
 
   @action addStep(id: string) {
     if (!this.rootScene.steps.includes(id)) {
@@ -13,11 +13,15 @@ export class Script {
   }
 
   @action bumpStep() {
-    this.step += 1;
+    this.stepNr += 1;
+  }
+
+  @computed step() {
+    return this.rootScene.steps[this.stepNr];
   }
 
   isVisible(id: string) {
-    return this.step > this.rootScene.steps.indexOf(id);
+    return this.stepNr > this.rootScene.steps.indexOf(id);
   }
 
   constructor() {

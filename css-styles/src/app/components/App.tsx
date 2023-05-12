@@ -5,10 +5,10 @@ import { cn } from '/src/utils/classnames';
 
 export const App = () => {
   return (
-    <div className={cn('App bg-blue-600')} tabIndex={0}>
+    <div className={cn('App')} tabIndex={0}>
       <ScriptProvider>
         <ScriptKeyHandler>
-          <Dashboard />
+          <Dashboard className="mx-auto" />
         </ScriptKeyHandler>
       </ScriptProvider>
     </div>

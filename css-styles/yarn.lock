@@ -434,6 +434,13 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
+"@react-gifs/tools@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@react-gifs/tools/-/tools-0.1.2.tgz#b2e2b03be1ba4d38d6d624c9d7f5b317f790fce3"
+  integrity sha512-KC4IXwoT/teTMlkLy8Qp6i/NlYx3kEJsPgRKlXwfTjjmhCLo2tCobnET2am0R7bB0KegDDTO7h10+NbBPRbs5A==
+  dependencies:
+    gifuct-js "^2.0.0"
+
 "@types/classnames@^2.3.1":
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/@types/classnames/-/classnames-2.3.1.tgz#3c2467aa0f1a93f1f021e3b9bcf938bd5dfdc0dd"
@@ -1132,6 +1139,13 @@ gensync@^1.0.0-beta.2:
   resolved "https://registry.yarnpkg.com/gensync/-/gensync-1.0.0-beta.2.tgz#32a6ee76c3d7f52d46b2b1ae5d93fea8580a25e0"
   integrity sha512-3hN7NaskYvMDLQY55gnW3NQ+mesEAepTqlg+VEbj7zzqEMBVNhzcGYYeqFo/TlYz6eQiFcp1HcsCZO+nGgS8zg==
 
+gifuct-js@^2.0.0:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/gifuct-js/-/gifuct-js-2.1.2.tgz#06152437ba30ec914db8398bd838bd0fbc8a6ecd"
+  integrity sha512-rI2asw77u0mGgwhV3qA+OEgYqaDn5UNqgs+Bx0FGwSpuqfYn+Ir6RQY5ENNQ8SbIiG/m5gVa7CD5RriO4f4Lsg==
+  dependencies:
+    js-binary-schema-parser "^2.0.3"
+
 glob-parent@^5.1.2, glob-parent@~5.1.2:
   version "5.1.2"
   resolved "https://registry.yarnpkg.com/glob-parent/-/glob-parent-5.1.2.tgz#869832c58034fe68a4093c17dc15e8340d8401c4"
@@ -1302,6 +1316,11 @@ jiti@^1.18.2:
   version "1.18.2"
   resolved "https://registry.yarnpkg.com/jiti/-/jiti-1.18.2.tgz#80c3ef3d486ebf2450d9335122b32d121f2a83cd"
   integrity sha512-QAdOptna2NYiSSpv0O/BwoHBSmz4YhpzJHyi+fnMRTXFjp7B8i/YG5Z8IfusxB1ufjcD2Sre1F3R+nX3fvy7gg==
+
+js-binary-schema-parser@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/js-binary-schema-parser/-/js-binary-schema-parser-2.0.3.tgz#3d7848748e8586e63b34e8911b643f59cfb6396e"
+  integrity sha512-xezGJmOb4lk/M1ZZLTR/jaBHQ4gG/lqQnJqdIv4721DMggsa1bDVlHXNeHYogaIEHD9vCRv0fcL4hMA+Coarkg==
 
 js-sdsl@^4.1.4:
   version "4.4.0"
@@ -1649,7 +1668,7 @@ prelude-ls@^1.2.1:
   resolved "https://registry.yarnpkg.com/prelude-ls/-/prelude-ls-1.2.1.tgz#debc6489d7a6e6b0e7611888cec880337d316396"
   integrity sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==
 
-prop-types@^15.5.7:
+prop-types@^15.5.7, prop-types@^15.6.0:
   version "15.8.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -1688,6 +1707,13 @@ react-flip-toolkit@^7.0.17:
   dependencies:
     flip-toolkit "7.0.17"
     prop-types "^15.5.7"
+
+react-gif-player@^0.4.2:
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/react-gif-player/-/react-gif-player-0.4.2.tgz#7f7675625bb264a3cfac8956edd5a18b8c196af3"
+  integrity sha512-ub++AT0PgbVxw1S0ahV3Q/4m67772r3vrnE6VqYed0Wi0cB9iremID8UnkFhZJCge77lwumsFOYsk1ShmouAgA==
+  dependencies:
+    prop-types "^15.6.0"
 
 react-is@^16.13.1:
   version "16.13.1"
