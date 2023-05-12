@@ -3,6 +3,7 @@ import { useScript } from '/src/script/hooks/useScript';
 
 export type PropsT = React.PropsWithChildren<{
   id: string;
+  audioUrl?: string;
 }>;
 
 export const Step = observer((props: PropsT) => {
@@ -15,5 +16,14 @@ export const Step = observer((props: PropsT) => {
     return null;
   }
 
-  return <>{props.children}</>;
+  const audioDiv = (
+    <audio autoPlay={true} controls={true} src={props.audioUrl}></audio>
+  );
+
+  return (
+    <>
+      {props.audioUrl ? audioDiv : null}
+      {props.children}
+    </>
+  );
 });

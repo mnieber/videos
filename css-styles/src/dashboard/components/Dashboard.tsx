@@ -13,7 +13,7 @@ export const Dashboard = () => {
       <Step id={steps.create()}>
         <div>Hello</div>
       </Step>
-      <Step id={steps.create()}>
+      <Step id={steps.create()} audioUrl="/samples/test-sample.mp3">
         <div>Friend</div>
       </Step>
       <SceneView />
