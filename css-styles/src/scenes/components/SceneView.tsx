@@ -17,7 +17,7 @@ export const SceneView = observer(
     const scene = script.rootScene;
 
     return (
-      <p className="read-the-docs">{`There are ${scene.steps.length} steps`}</p>
+      <p className="read-the-docs">{`There are ${scene.steps.length} steps. At step ${script.step}`}</p>
     );
   }, DefaultProps)
 );

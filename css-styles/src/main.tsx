@@ -1,24 +1,21 @@
+// Import styles. This needs to be done before importing any components.
+import '/src/frames/styles/index.scss';
+
+import { applyFormatters } from 'mobx-log';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App.tsx';
-import './index.css';
-import { ScriptKeyHandler } from '/src/script/components/ScriptKeyHandler';
-import { ScriptProvider } from '/src/script/components/ScriptProvider';
+import { App } from '/src/app/components';
 
 const strict = false;
 
-const body = (
-  <React.StrictMode>
-    <ScriptProvider>
-      <ScriptKeyHandler>
-        <App />
-      </ScriptKeyHandler>
-    </ScriptProvider>
-  </React.StrictMode>
-);
+if (import.meta.env.DEV) {
+  applyFormatters();
+}
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
+const body = <App />;
 
 root.render(strict ? <React.StrictMode>{body}</React.StrictMode> : body);

@@ -4,14 +4,11 @@ import { Step } from '/src/scenes/components/Step';
 import { useSteps } from '/src/scenes/hooks/useSteps';
 import { cn } from '/src/utils/classnames';
 
-// Import styles
-import './App.scss';
-
-function App() {
+export const Dashboard = () => {
   const steps = useSteps('App');
 
   return (
-    <div className={cn('App')} tabIndex={0}>
+    <div className={cn('Dashboard')} tabIndex={0}>
       <h1>App</h1>
       <Step id={steps.create()}>
         <div>Hello</div>
@@ -29,6 +26,4 @@ function App() {
       />
     </div>
   );
-}
-
-export default App;
+};
