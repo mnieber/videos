@@ -1,15 +1,12 @@
 import { observer } from 'mobx-react-lite';
 import { withDefaultProps } from '/src/app/defaultProps';
-import { Step } from '/src/scenes/components/Step';
 
 type BulletPointT = string;
 type NestedBulletsT = Array<BulletPointT | NestedBulletsT>;
 type FlattenedBulletT = [BulletPointT, number]; // Tuple of bullet point and nesting level
 
 export type PropsT = {
-  stepId: string;
   bullets: NestedBulletsT[];
-  audio?: string;
 };
 
 const DefaultProps = {};
@@ -19,18 +16,15 @@ export const Bullets = observer(
     const flatBulletPoints = _flattenBullets(props.bullets);
     const bulletPoints = flatBulletPoints.map((bulletPoint, idx) => {
       const marginLeft = bulletPoint[1] * 16;
+      const stepId = bulletPoint[0]; // HACK
       return (
-        <div key={`${props.stepId}-${idx}`} style={{ marginLeft: marginLeft }}>
+        <div key={`${stepId}-${idx}`} style={{ marginLeft: marginLeft }}>
           {bulletPoint[0]}
         </div>
       );
     });
 
-    return (
-      <Step stepId={props.stepId} audio={props.audio}>
-        {bulletPoints}
-      </Step>
-    );
+    return <>{bulletPoints}</>;
   }, DefaultProps)
 );
 

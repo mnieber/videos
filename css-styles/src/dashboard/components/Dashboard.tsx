@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import { Bullets } from '/src/scenes/components/Bullets';
 import { FullScreenGif } from '/src/scenes/components/FullScreenGif';
+import { Step } from '/src/scenes/components/Step';
 import { useSteps } from '/src/scenes/hooks/useSteps';
 import { useScript } from '/src/script/hooks/useScript';
 import { cn } from '/src/utils/classnames';
@@ -26,27 +27,34 @@ export const Dashboard = observer((props: PropsT) => {
       )}
       tabIndex={0}
     >
+      <Step stepId={steps.create()} audio={'Hello'}>
+        <div>One</div>
+      </Step>
       {script.gifUrl && <img src={script.gifUrl} />}
-      <Bullets stepId={steps.create()} bullets={[["Let's go"], ['Come on']]} />
+      <Step stepId={steps.create()}>
+        <Bullets bullets={[["Let's go"], ['Come on']]} />
+      </Step>
       <FullScreenGif stepId={steps.create()} gifUrl="/src/gif/test.gif" />
-      <Bullets
-        stepId={steps.create()}
-        bullets={[
-          [
-            'Vite is a new build tool for modern web development',
+      <Step stepId={steps.create()}>
+        <Bullet>
+          <Bullet></Bullet>
+        </Bullet>
+        <Bullets
+          bullets={[
             [
-              //
-              'Vite is fast',
-              'Vite is extensible',
+              'Vite is a new build tool for modern web development',
+              [
+                //
+                'Vite is fast',
+                'Vite is extensible',
+              ],
             ],
-          ],
-        ]}
-      />
-      <Bullets
-        stepId={steps.create()}
-        bullets={[['You can be quick']]}
-        audio="Welcome to vite"
-      />
+          ]}
+        />
+      </Step>
+      <Step stepId={steps.create()} audio="Welcome to vite">
+        <Bullets bullets={[['You can be quick']]} />
+      </Step>
     </div>
   );
 });
