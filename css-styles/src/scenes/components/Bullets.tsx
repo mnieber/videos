@@ -27,7 +27,7 @@ export const Bullets = observer(
     });
 
     return (
-      <Step id={props.stepId} audio={props.audio}>
+      <Step stepId={props.stepId} audio={props.audio}>
         {bulletPoints}
       </Step>
     );

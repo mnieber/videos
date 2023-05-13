@@ -3,21 +3,29 @@ import { Speak } from '/src/scenes/components/Speak';
 import { useScript } from '/src/script/hooks/useScript';
 
 export type PropsT = React.PropsWithChildren<{
-  id: string;
+  stepId: string;
   audio?: string;
+  gif?: string;
 }>;
 
 export const Step = observer((props: PropsT) => {
   const script = useScript();
-  if (!script.isVisible(props.id)) {
+  if (!script.isVisible(props.stepId)) {
     return null;
   }
 
-  const audioDiv = <Speak>{props.audio}</Speak>;
+  const audioDiv =
+    props.audio && script.isVisible(props.stepId) ? (
+      <Speak>{props.audio}</Speak>
+    ) : null;
+
+  const gifDiv =
+    props.gif && script.isAtStep(props.stepId) ? <div></div> : null;
 
   return (
     <>
-      {props.audio ? audioDiv : null}
+      {audioDiv}
+      {gifDiv}
       {props.children}
     </>
   );

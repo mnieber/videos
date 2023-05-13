@@ -1,15 +1,19 @@
+import { observer } from 'mobx-react-lite';
 import { Bullets } from '/src/scenes/components/Bullets';
-import { SceneView } from '/src/scenes/components/SceneView';
+import { FullScreenGif } from '/src/scenes/components/FullScreenGif';
 import { useSteps } from '/src/scenes/hooks/useSteps';
+import { useScript } from '/src/script/hooks/useScript';
 import { cn } from '/src/utils/classnames';
 
 export type PropsT = {
   className?: any;
 };
 
-export const Dashboard = (props: PropsT) => {
+export const Dashboard = observer((props: PropsT) => {
   const steps = useSteps('App');
+  const script = useScript();
 
+  console.log('script.gifUrl', script.gifUrl);
   return (
     <div
       className={cn(
@@ -22,8 +26,9 @@ export const Dashboard = (props: PropsT) => {
       )}
       tabIndex={0}
     >
-      <SceneView />
+      {script.gifUrl && <img src={script.gifUrl} />}
       <Bullets stepId={steps.create()} bullets={[["Let's go"], ['Come on']]} />
+      <FullScreenGif stepId={steps.create()} gifUrl="/src/gif/test.gif" />
       <Bullets
         stepId={steps.create()}
         bullets={[
@@ -44,4 +49,4 @@ export const Dashboard = (props: PropsT) => {
       />
     </div>
   );
-};
+});
