@@ -1,16 +1,19 @@
 import * as R from 'ramda';
 import KeyboardEventHandler from 'react-keyboard-event-handler';
-import { useScript } from '/src/script/hooks/useScript';
+import { useDeck } from '/src/deck/hooks/useDeck';
 import { createKeyDownHandler } from '/src/utils/createKeyDownHandler';
 
 export type PropsT = React.PropsWithChildren<{}>;
 
-export const ScriptKeyHandler = (props: PropsT) => {
-  const script = useScript();
+export const DeckKeyHandler = (props: PropsT) => {
+  const deck = useDeck();
 
   const keyHandlers = {
-    space: () => {
-      script.bumpStep();
+    arrowDown: () => {
+      deck.goToNextSlide();
+    },
+    arrowUp: () => {
+      deck.goToPreviousSlide();
     },
   };
 

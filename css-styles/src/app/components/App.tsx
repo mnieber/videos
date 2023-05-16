@@ -1,16 +1,19 @@
 import { Dashboard } from '/src/dashboard/components/Dashboard';
-import { ScriptKeyHandler } from '/src/script/components/ScriptKeyHandler';
-import { ScriptProvider } from '/src/script/components/ScriptProvider';
+import { DeckKeyHandler } from '/src/deck/components/DeckKeyHandler';
+import { DeckContext } from '/src/deck/hooks/useDeck';
+import { Deck } from '/src/deck/models/Deck';
 import { cn } from '/src/utils/classnames';
+
+const deck = new Deck();
 
 export const App = () => {
   return (
     <div className={cn('App')} tabIndex={0}>
-      <ScriptProvider>
-        <ScriptKeyHandler>
+      <DeckContext.Provider value={deck}>
+        <DeckKeyHandler>
           <Dashboard className="mx-auto" />
-        </ScriptKeyHandler>
-      </ScriptProvider>
+        </DeckKeyHandler>
+      </DeckContext.Provider>
     </div>
   );
 };

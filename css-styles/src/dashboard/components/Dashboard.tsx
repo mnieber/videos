@@ -1,9 +1,8 @@
 import { observer } from 'mobx-react-lite';
-import { Bullets } from '/src/scenes/components/Bullets';
-import { FullScreenGif } from '/src/scenes/components/FullScreenGif';
-import { Step } from '/src/scenes/components/Step';
-import { useSteps } from '/src/scenes/hooks/useSteps';
-import { useScript } from '/src/script/hooks/useScript';
+import { Indent } from '/src/frames/components/Indent';
+import { Audio } from '/src/steps/components/Audio';
+import { FullScreenGif } from '/src/steps/components/FullScreenGif';
+import { StepView } from '/src/steps/components/StepView';
 import { cn } from '/src/utils/classnames';
 
 export type PropsT = {
@@ -11,10 +10,6 @@ export type PropsT = {
 };
 
 export const Dashboard = observer((props: PropsT) => {
-  const steps = useSteps('App');
-  const script = useScript();
-
-  console.log('script.gifUrl', script.gifUrl);
   return (
     <div
       className={cn(
@@ -27,34 +22,27 @@ export const Dashboard = observer((props: PropsT) => {
       )}
       tabIndex={0}
     >
-      <Step stepId={steps.create()} audio={'Hello'}>
+      <StepView id="1">
+        <Audio text="Hello" />
         <div>One</div>
-      </Step>
-      {script.gifUrl && <img src={script.gifUrl} />}
-      <Step stepId={steps.create()}>
-        <Bullets bullets={[["Let's go"], ['Come on']]} />
-      </Step>
-      <FullScreenGif stepId={steps.create()} gifUrl="/src/gif/test.gif" />
-      <Step stepId={steps.create()}>
-        <Bullet>
-          <Bullet></Bullet>
-        </Bullet>
-        <Bullets
-          bullets={[
-            [
-              'Vite is a new build tool for modern web development',
-              [
-                //
-                'Vite is fast',
-                'Vite is extensible',
-              ],
-            ],
-          ]}
-        />
-      </Step>
-      <Step stepId={steps.create()} audio="Welcome to vite">
-        <Bullets bullets={[['You can be quick']]} />
-      </Step>
+      </StepView>
+      <StepView id="2">
+        <div>"Let's go"</div>
+      </StepView>
+      <FullScreenGif id="2" gifUrl="/src/gif/test.gif" />
+      <StepView id="3">
+        <Indent>
+          <div>One</div>
+          <Indent>
+            <div>Two</div>
+            <div>Three</div>
+          </Indent>
+        </Indent>
+      </StepView>
+      <StepView id="4">
+        <Audio text="Welcome to vite" />
+        <div>You can be quick</div>
+      </StepView>
     </div>
   );
 });
