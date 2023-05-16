@@ -43,6 +43,28 @@ export class SlideModel {
     return step;
   }
 
+  @computed get currentStepIndex() {
+    return this.steps.findIndex((step) => step.id === this.currentStepId);
+  }
+
+  @action.bound goToNextStep() {
+    const currentIndex = this.currentStepIndex;
+    if (currentIndex < this.steps.length - 1) {
+      this.currentStepId = this.steps[currentIndex + 1].id;
+      return true;
+    }
+    return false;
+  }
+
+  @action.bound goToPreviousStep() {
+    const currentIndex = this.currentStepIndex;
+    if (currentIndex > 0) {
+      this.currentStepId = this.steps[currentIndex - 1].id;
+      return true;
+    }
+    return false;
+  }
+
   @computed get stepIds() {
     return this.steps.map((step) => step.id);
   }

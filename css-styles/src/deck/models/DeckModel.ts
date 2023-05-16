@@ -40,20 +40,42 @@ export class DeckModel {
   }
 
   @action goToNextSlide() {
-    const currentIndex = this.slides.findIndex(
-      (slide) => slide.id === this.currentSlideId
-    );
+    const currentIndex = this.currentSlideIndex;
     if (currentIndex < this.slides.length - 1) {
       this.currentSlideId = this.slides[currentIndex + 1].id;
+      return true;
+    }
+    return false;
+  }
+
+  @action goToNextStep() {
+    if (this.currentSlide) {
+      if (this.currentSlide.goToNextStep()) {
+        return true;
+      } else {
+        return this.goToNextSlide();
+      }
     }
   }
 
+  @computed get currentSlideIndex() {
+    return this.slides.findIndex((slide) => slide.id === this.currentSlideId);
+  }
+
   @action goToPreviousSlide() {
-    const currentIndex = this.slides.findIndex(
-      (slide) => slide.id === this.currentSlideId
-    );
+    const currentIndex = this.currentSlideIndex;
     if (currentIndex > 0) {
       this.currentSlideId = this.slides[currentIndex - 1].id;
+    }
+  }
+
+  @action goToPreviousStep() {
+    if (this.currentSlide) {
+      if (this.currentSlide.goToPreviousStep()) {
+        return true;
+      } else {
+        return this.goToPreviousSlide();
+      }
     }
   }
 
