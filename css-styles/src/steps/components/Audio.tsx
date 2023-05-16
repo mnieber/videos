@@ -1,33 +1,17 @@
 import { observer } from 'mobx-react-lite';
-import React from 'react';
-import { useStep } from '/src/steps/hooks/useStep';
+import { useStepModel } from '/src/steps/hooks/useStepModel';
 import { Speak } from '/src/utils/components/Speak';
 
-export type PropsT = React.PropsWithChildren<{
+export type PropsT = {
   text: string;
   gif?: string;
-}>;
+};
 
 export const Audio = observer((props: PropsT) => {
-  const step = useStep();
-
-  React.useEffect(() => {
-    if (step?.isCurrent) {
-    }
-  }, [step]);
-
+  const step = useStepModel();
   if (!step.isCurrent) {
     return null;
   }
 
-  const audioDiv = <Speak>{props.text}</Speak>;
-  const gifDiv = props.gif && step.isCurrent ? <div></div> : null;
-
-  return (
-    <>
-      {audioDiv}
-      {gifDiv}
-      {props.children}
-    </>
-  );
+  return <Speak>{props.text}</Speak>;
 });

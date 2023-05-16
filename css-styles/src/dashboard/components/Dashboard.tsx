@@ -1,8 +1,9 @@
 import { observer } from 'mobx-react-lite';
 import { Indent } from '/src/frames/components/Indent';
+import { Slide } from '/src/slides/components/Slide';
 import { Audio } from '/src/steps/components/Audio';
 import { FullScreenGif } from '/src/steps/components/FullScreenGif';
-import { StepView } from '/src/steps/components/StepView';
+import { Step } from '/src/steps/components/Step';
 import { cn } from '/src/utils/classnames';
 
 export type PropsT = {
@@ -22,27 +23,29 @@ export const Dashboard = observer((props: PropsT) => {
       )}
       tabIndex={0}
     >
-      <StepView id="1">
-        <Audio text="Hello" />
-        <div>One</div>
-      </StepView>
-      <StepView id="2">
-        <div>"Let's go"</div>
-      </StepView>
-      <FullScreenGif id="2" gifUrl="/src/gif/test.gif" />
-      <StepView id="3">
-        <Indent>
+      <Slide id="1">
+        <Step id="1">
+          <Audio text="Hello" />
           <div>One</div>
+        </Step>
+        <Step id="2">
+          <div>"Let's go"</div>
+          <FullScreenGif id="2" gifUrl="/src/gif/test.gif" />
+        </Step>
+        <Step id="3">
           <Indent>
-            <div>Two</div>
-            <div>Three</div>
+            <div>One</div>
+            <Indent>
+              <div>Two</div>
+              <div>Three</div>
+            </Indent>
           </Indent>
-        </Indent>
-      </StepView>
-      <StepView id="4">
-        <Audio text="Welcome to vite" />
-        <div>You can be quick</div>
-      </StepView>
+        </Step>
+        <Step id="4">
+          <Audio text="Welcome to vite" />
+          <div>You can be quick</div>
+        </Step>
+      </Slide>
     </div>
   );
 });

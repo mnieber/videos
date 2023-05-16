@@ -1,7 +1,6 @@
 import { observer } from 'mobx-react-lite';
-import React from 'react';
 import { withDefaultProps } from '/src/app/defaultProps';
-import { useStep } from '/src/steps/hooks/useStep';
+import { useStepModel } from '/src/steps/hooks/useStepModel';
 
 export type PropsT = {
   id: string;
@@ -13,18 +12,10 @@ const DefaultProps = {};
 
 export const FullScreenGif = observer(
   withDefaultProps((props: PropsT & typeof DefaultProps) => {
-    const step = useStep();
-    const isAtStep = step.isCurrent;
-    const isVisible = step.isTriggered;
-
-    React.useEffect(() => {
-      if (isAtStep) {
-        // script.pushGif(props.gifUrl);
-      } else if (isVisible) {
-        // script.popGif(props.gifUrl);
-      }
-    }, [isAtStep, isVisible]);
-
+    const step = useStepModel();
+    if (!step.isCurrent) {
+      return null;
+    }
     return null;
   }, DefaultProps)
 );

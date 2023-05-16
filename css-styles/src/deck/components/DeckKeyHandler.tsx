@@ -1,18 +1,18 @@
 import * as R from 'ramda';
 import KeyboardEventHandler from 'react-keyboard-event-handler';
-import { useDeck } from '/src/deck/hooks/useDeck';
+import { useDeckModel } from '/src/deck/hooks/useDeckModel';
 import { createKeyDownHandler } from '/src/utils/createKeyDownHandler';
 
 export type PropsT = React.PropsWithChildren<{}>;
 
 export const DeckKeyHandler = (props: PropsT) => {
-  const deck = useDeck();
+  const deck = useDeckModel();
 
   const keyHandlers = {
-    arrowDown: () => {
+    down: () => {
       deck.goToNextSlide();
     },
-    arrowUp: () => {
+    up: () => {
       deck.goToPreviousSlide();
     },
   };
