@@ -12,25 +12,25 @@ export type PropsT = {
 export const WelcomeSlide = observer((props: PropsT) => {
   return (
     <Slide id="Welcome">
-      <Step id="1">
+      <Step pos={1}>
         <div>CSS style management</div>
       </Step>
-      <Step id="2">
+      <Step pos={2}>
         <Audio text={text} />
         <div>Part 1</div>
         <Indent>
           <div>SCSS files</div>
-          <Step id="5">The winner is</Step>
+          <Step pos={5}>The winner is</Step>
           <div>Inline styles</div>
         </Indent>
       </Step>
-      <Step id="3">
+      <Step pos={3}>
         <FullScreenGif id="2" gifUrl="/src/gif/test.gif" />
         <Indent>
           <div>One</div>
           <Indent>
             <div>Two</div>
-            <Step id="5">Two point five</Step>
+            <Step pos={5}>Two point five</Step>
             <div>Three</div>
             <Indent>
               <div>Four</div>
@@ -38,7 +38,7 @@ export const WelcomeSlide = observer((props: PropsT) => {
           </Indent>
         </Indent>
       </Step>
-      <Step id="4">
+      <Step pos={4}>
         <Audio text="Welcome to vite" />
         <div>You can be quick</div>
       </Step>

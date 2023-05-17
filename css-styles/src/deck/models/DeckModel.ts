@@ -10,7 +10,7 @@ export class DeckModel {
     makeObservable(this);
 
     autorun(() => {
-      console.log('At', this.currentSlideId, this.currentSlide?.currentStepId);
+      console.log('At', this.currentSlideId, this.currentSlide?.currentStepPos);
     });
   }
 

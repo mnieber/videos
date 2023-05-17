@@ -5,9 +5,8 @@ import { StepModel } from '/src/steps/models/StepModel';
 
 export class SlideModel {
   @observable id: string;
-  @observable currentStepId?: string;
-  @observable hasView: boolean = false;
-  @observable steps: StepModel[] = [];
+  @observable currentStepPos?: number;
+  @observable _steps: StepModel[] = [];
   deckModel: DeckModel;
 
   constructor(deckModel: DeckModel, id: string) {
@@ -20,37 +19,39 @@ export class SlideModel {
     return this.deckModel.currentSlideId === this.id;
   }
 
-  @action.bound setViewStatus(hasView: boolean) {
-    this.hasView = hasView;
+  @computed get steps() {
+    return R.sort((a, b) => {
+      return a.pos - b.pos;
+    }, this._steps);
   }
 
-  getStep(id: string) {
-    return this.steps.find((step) => step.id === id);
+  getStep(pos: number) {
+    return this._steps.find((step) => step.pos === pos);
   }
 
-  @action.bound createStep(id: string) {
-    let step = this.getStep(id);
+  @action.bound createStep(pos: number) {
+    let step = this.getStep(pos);
     if (step) {
       return step;
     }
-    step = new StepModel(this, id);
-    this.steps.push(step);
+    step = new StepModel(this, pos);
+    this._steps.push(step);
 
-    if (R.isNil(this.currentStepId)) {
-      this.currentStepId = id;
+    if (R.isNil(this.currentStepPos)) {
+      this.currentStepPos = pos;
     }
 
     return step;
   }
 
   @computed get currentStepIndex() {
-    return this.steps.findIndex((step) => step.id === this.currentStepId);
+    return this._steps.findIndex((step) => step.pos === this.currentStepPos);
   }
 
   @action.bound goToNextStep() {
     const currentIndex = this.currentStepIndex;
     if (currentIndex < this.steps.length - 1) {
-      this.currentStepId = this.steps[currentIndex + 1].id;
+      this.currentStepPos = this._steps[currentIndex + 1].pos;
       return true;
     }
     return false;
@@ -59,20 +60,21 @@ export class SlideModel {
   @action.bound goToPreviousStep() {
     const currentIndex = this.currentStepIndex;
     if (currentIndex > 0) {
-      this.currentStepId = this.steps[currentIndex - 1].id;
+      this.currentStepPos = this.steps[currentIndex - 1].pos;
       return true;
     }
     return false;
   }
 
-  @computed get stepIds() {
-    return this.steps.map((step) => step.id);
+  @computed get stepPositions() {
+    return this.steps.map((step) => step.pos);
   }
 
-  isStepPresent(id: string) {
+  isStepPresent(pos: number) {
     return (
-      !R.isNil(this.currentStepId) &&
-      this.stepIds.indexOf(id) <= this.stepIds.indexOf(this.currentStepId)
+      !R.isNil(this.currentStepPos) &&
+      this.stepPositions.indexOf(pos) <=
+        this.stepPositions.indexOf(this.currentStepPos)
     );
   }
 }

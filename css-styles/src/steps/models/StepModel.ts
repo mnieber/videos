@@ -2,23 +2,23 @@ import { action, computed, makeObservable, observable } from 'mobx';
 import { SlideModel } from '/src/slides/models/SlideModel';
 
 export class StepModel {
-  @observable id: string;
+  @observable pos: number;
   @observable preview: boolean = false;
   @observable hasView: boolean = false;
   slideModel: SlideModel;
 
-  constructor(slideModel: SlideModel, id: string) {
+  constructor(slideModel: SlideModel, pos: number) {
     makeObservable(this);
-    this.id = id;
+    this.pos = pos;
     this.slideModel = slideModel;
   }
 
   @computed get isCurrent() {
-    return this.slideModel.currentStepId === this.id;
+    return this.slideModel.currentStepPos === this.pos;
   }
 
   @computed get isPresent() {
-    return this.slideModel.isCurrent && this.slideModel.isStepPresent(this.id);
+    return this.slideModel.isCurrent && this.slideModel.isStepPresent(this.pos);
   }
 
   @action setViewStatus(hasView: boolean) {

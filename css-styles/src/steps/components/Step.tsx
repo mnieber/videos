@@ -7,24 +7,23 @@ import { StepContext } from '/src/steps/hooks/useStepModel';
 import './Step.scss';
 
 export type PropsT = React.PropsWithChildren<{
-  id: string;
+  pos: number;
 }>;
 
 export const Step = observer((props: PropsT) => {
   const slide = useSlideModel();
-  const stepId = `${slide.id}-step-${props.id}`;
 
   React.useEffect(() => {
     if (slide) {
-      slide.createStep(stepId);
+      slide.createStep(props.pos);
     }
-  }, [slide, stepId]);
+  }, [slide, props.pos]);
 
   if (!slide) {
     throw new Error('Step must be used within a Slide');
   }
 
-  const step = slide.getStep(stepId);
+  const step = slide.getStep(props.pos);
   if (!step) {
     return null;
   }

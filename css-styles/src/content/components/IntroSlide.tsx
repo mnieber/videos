@@ -9,10 +9,10 @@ export type PropsT = {
 export const IntroSlide = observer((props: PropsT) => {
   return (
     <Slide id="Intro">
-      <Step id="1">
+      <Step pos={1}>
         <div>Intro</div>
       </Step>
-      <Step id="2">
+      <Step pos={2}>
         <div>Time</div>
       </Step>
     </Slide>
