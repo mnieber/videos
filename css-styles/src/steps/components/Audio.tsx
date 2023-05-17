@@ -1,17 +1,39 @@
 import { observer } from 'mobx-react-lite';
+import React from 'react';
 import { useStepModel } from '/src/steps/hooks/useStepModel';
-import { Speak } from '/src/utils/components/Speak';
 
 export type PropsT = {
   text: string;
-  gif?: string;
 };
 
 export const Audio = observer((props: PropsT) => {
+  const [voices, setVoices] = React.useState<SpeechSynthesisVoice[] | null>(
+    null
+  );
   const step = useStepModel();
-  if (!step.isCurrent) {
-    return null;
-  }
 
-  return <Speak>{props.text}</Speak>;
+  React.useEffect(() => {
+    function handleVoicesChanged() {
+      setVoices(speechSynthesis.getVoices());
+    }
+
+    speechSynthesis.addEventListener('voiceschanged', handleVoicesChanged);
+    handleVoicesChanged();
+    return () => {
+      speechSynthesis.removeEventListener('voiceschanged', handleVoicesChanged);
+    };
+  }, []);
+
+  React.useEffect(() => {
+    if (step.isCurrent && voices) {
+      const voice = voices.find((x) => x.name === 'Google UK English Male');
+      if (voice) {
+        const utterThis = new SpeechSynthesisUtterance(props.text);
+        utterThis.voice = voice;
+        speechSynthesis.speak(utterThis);
+      }
+    }
+  }, [step.isCurrent, voices, props.text]);
+
+  return null;
 });

@@ -10,7 +10,7 @@ export type PropsT = React.PropsWithChildren<{
 export const IndentContext = React.createContext<number>(0);
 
 export const Indent = observer((props: PropsT) => {
-  const parentIndentLevel = React.useContext(IndentContext);
+  const parentIndentLevel = React.useContext(IndentContext) ?? 0;
   const indentLevel = parentIndentLevel + 1;
 
   return (
