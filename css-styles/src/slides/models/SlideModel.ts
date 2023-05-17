@@ -29,12 +29,12 @@ export class SlideModel {
     return this._steps.find((step) => step.pos === pos);
   }
 
-  @action.bound createStep(pos: number) {
+  @action.bound createStep(pos: number, preview?: boolean) {
     let step = this.getStep(pos);
     if (step) {
       return step;
     }
-    step = new StepModel(this, pos);
+    step = new StepModel(this, pos, preview);
     this._steps.push(step);
 
     if (R.isNil(this.currentStepPos)) {
@@ -51,7 +51,7 @@ export class SlideModel {
   @action.bound goToNextStep() {
     const currentIndex = this.currentStepIndex;
     if (currentIndex < this.steps.length - 1) {
-      this.currentStepPos = this._steps[currentIndex + 1].pos;
+      this.currentStepPos = this.steps[currentIndex + 1].pos;
       return true;
     }
     return false;

@@ -8,6 +8,7 @@ import './Step.scss';
 
 export type PropsT = React.PropsWithChildren<{
   pos: number;
+  preview?: boolean;
 }>;
 
 export const Step = observer((props: PropsT) => {
@@ -15,7 +16,7 @@ export const Step = observer((props: PropsT) => {
 
   React.useEffect(() => {
     if (slide) {
-      slide.createStep(props.pos);
+      slide.createStep(props.pos, props.preview ?? false);
     }
   }, [slide, props.pos]);
 

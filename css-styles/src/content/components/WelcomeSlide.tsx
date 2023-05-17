@@ -2,6 +2,7 @@ import { observer } from 'mobx-react-lite';
 import { Indent } from '/src/frames/components/Indent';
 import { Slide } from '/src/slides/components/Slide';
 import { Audio } from '/src/steps/components/Audio';
+import { Bullet } from '/src/steps/components/Bullet';
 import { FullScreenGif } from '/src/steps/components/FullScreenGif';
 import { Step } from '/src/steps/components/Step';
 
@@ -20,12 +21,16 @@ export const WelcomeSlide = observer((props: PropsT) => {
         <div>Part 1</div>
         <Indent>
           <div>SCSS files</div>
-          <Step pos={5}>The winner is</Step>
-          <div>Inline styles</div>
+          <div className="flex flex-row">
+            Inline styles{' '}
+            <Step pos={5}>
+              <div className="ml-2">The winner is</div>
+            </Step>
+          </div>
         </Indent>
       </Step>
       <Step pos={3}>
-        <FullScreenGif id="2" gifUrl="/src/gif/test.gif" />
+        {false && <FullScreenGif id="2" gifUrl="/src/gif/test.gif" />}
         <Indent>
           <div>One</div>
           <Indent>
@@ -38,9 +43,8 @@ export const WelcomeSlide = observer((props: PropsT) => {
           </Indent>
         </Indent>
       </Step>
-      <Step pos={4}>
-        <Audio text="Welcome to vite" />
-        <div>You can be quick</div>
+      <Step pos={4} preview={true}>
+        <Bullet>You can be quick</Bullet>
       </Step>
     </Slide>
   );
