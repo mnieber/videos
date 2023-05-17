@@ -1,6 +1,7 @@
 import { Dashboard } from '/src/dashboard/components/Dashboard';
+import { Deck } from '/src/deck/components/Deck';
 import { DeckKeyHandler } from '/src/deck/components/DeckKeyHandler';
-import { DeckContext } from '/src/deck/hooks/useDeckModel';
+import { DeckProvider } from '/src/deck/components/DeckProvider';
 import { DeckModel } from '/src/deck/models/DeckModel';
 import { cn } from '/src/utils/classnames';
 
@@ -9,11 +10,13 @@ const deck = new DeckModel();
 export const App = () => {
   return (
     <div className={cn('App')} tabIndex={0}>
-      <DeckContext.Provider value={deck}>
+      <DeckProvider value={deck}>
         <DeckKeyHandler>
-          <Dashboard className="mx-auto" />
+          <Deck className="w-[1920px] h-[1080px] flex flex-row">
+            <Dashboard className="mx-auto" />
+          </Deck>
         </DeckKeyHandler>
-      </DeckContext.Provider>
+      </DeckProvider>
     </div>
   );
 };

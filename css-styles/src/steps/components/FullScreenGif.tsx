@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import { withDefaultProps } from '/src/app/defaultProps';
 import { useStepModel } from '/src/steps/hooks/useStepModel';
+import { ModalOverlay } from '/src/utils/components/ModalOverlay';
 
 export type PropsT = {
   id: string;
@@ -16,6 +17,10 @@ export const FullScreenGif = observer(
     if (!step.isCurrent) {
       return null;
     }
-    return null;
+    return (
+      <ModalOverlay>
+        <img src={props.gifUrl} />
+      </ModalOverlay>
+    );
   }, DefaultProps)
 );

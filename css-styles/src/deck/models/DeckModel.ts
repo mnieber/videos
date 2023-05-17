@@ -28,7 +28,6 @@ export class DeckModel {
       return slide;
     }
 
-    console.log('Creating slide', id);
     slide = new SlideModel(this, id);
     this.slides.push(slide);
 

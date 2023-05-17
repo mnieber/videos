@@ -31,6 +31,7 @@ export const Audio = observer((props: PropsT) => {
         const utterThis = new SpeechSynthesisUtterance(props.text);
         utterThis.voice = voice;
         speechSynthesis.speak(utterThis);
+        console.log('speaking', props.text);
       }
     }
   }, [step.isCurrent, voices, props.text]);
