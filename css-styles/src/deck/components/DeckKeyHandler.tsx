@@ -13,10 +13,10 @@ export const DeckKeyHandler = (props: PropsT) => {
       deck.goToNextSlide();
     },
     left: () => {
-      deck.currentSlide?.goToPreviousStep();
+      deck.goToPreviousStep();
     },
     right: () => {
-      deck.currentSlide?.goToNextStep();
+      deck.goToNextStep();
     },
     up: () => {
       deck.goToPreviousSlide();

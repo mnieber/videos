@@ -6,7 +6,7 @@ export type PropsT = React.PropsWithChildren<{
   className?: any;
 }>;
 
-export const Deck = (props: PropsT) => {
+export const Presentation = (props: PropsT) => {
   return (
     <ModalContainer className={cn('Deck', props.className)}>
       {props.children}
