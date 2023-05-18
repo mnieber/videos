@@ -53,7 +53,6 @@ export const WelcomeSlide = observer((props: PropsT) => {
 const text = `
 Hello. The topic for today's video course is CSS style management.
 In the first part of the course, I will talk about two common approaches for styling your elements: SCSS files and inline styles.
-We will go into the challenges that developers face when using these approaches, and I will explain why I believe that
-using inline styles is the better approach.
+I will explain why managing CSS is challenging, and why I believe that using inline styles is the better approach.
 In the second part, I will show my own approach for managing the styles, which uses both inline styles and SCSS files.
 `;
