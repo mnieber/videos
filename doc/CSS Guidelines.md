@@ -129,3 +129,85 @@ Notes:
   For example, to find out where the `.FormField` CSS component is defined in the context of an `AuthCard`, we can search for `.AuthCard .FormField` in the codebase.
 
 ### G5: Consider capturing ad-hoc styles in a layout object.
+
+Even though ad-hoc properties may vary per component instance, it's still good to avoid having arbitrary variation in them. This will create a more consistent look.
+We can achieve this by moving some of the ad-hoc properties to a layout object. Here is an example.
+
+```tsx
+export const layout = {
+  FormField: {
+    root: 'FormField flex flex-col',
+    label: {
+      root: 'FormField__Label mb-4',
+      color: {
+        mossGreen: 'text-moss-green',
+        skyBlue: 'text-sky-blue',
+      },
+    },
+    input: 'FormField__Input border border-gray-300 rounded',
+  },
+};
+```
+
+```tsx
+const EmailFormField = () => {
+  const l = layout.FormField;
+
+  return (
+    {/* Here we apply the FormField CSS component to the entire React component */}
+    {/* The FormField CSS component adds the intrinsic styles for a FormField to the EmailFormField */}
+    <div className={cn("EmailFormField", l.root)}>
+      <label className={cn(l.label.root, l.label.color.green)}>Email</label>
+      <input className={cn(l.input)} type="email" />
+    </div>
+  );
+};
+```
+
+Notes:
+
+- the colors field in layout.FormField.label.color offers a choice of ad-hoc colors for the label. By limiting these choices, we create more consistency, while still allowing
+  the color to vary per component instance.
+
+## Scenario for changing an intrinsic style to an ad-hoc style
+
+Let's consider the scenario in which a FormField has been styled with scss files and a layout object.
+The scss files contain the intrinsic styles, and the layout object contains the ad-hoc styles. The FormField can be used in either the
+AuthCard context or the UserProfileCard context, as has been illustrated before:
+
+```scss
+.c-form-field {
+  font-family: 'Roboto', sans-serif;
+}
+
+// This rule uniquely describes a FormField in the context of an AuthCard.
+.AuthCard .FormField {
+  @apply c-form-field;
+
+  font-size: 12px;
+}
+
+// This rule uniquely describes a FormField in the context of a UserProfileCard.
+.UserProfileCard .FormField {
+  @apply c-form-field;
+
+  font-size: 16px;
+}
+```
+
+It's interesting to consider what should happen when we decide that the font-size must be an ad-hoc property instead
+of an intrinsic property. How should we refactor the code to avoid breaking something? The challenge here is that previously
+we relied on the cascading nature of style-sheets to correctly style the FormField depending on the context (either
+.AuthCard or .UserProfileCard). This means we could create an element with the .FormField class without needing to know the
+context of the element. Now that we want to make the font-size an ad-hoc property, we need to know the context of the element,
+and apply a font-size of 12px or 16px accordingly.
+
+I propose the following work-flow:
+
+1. Find all instances of `FormField` in the typescript code (i.e. all .ts and .tsx files) and annotate them with a comment: `// ad-hoc: font-size`.
+2. For every annotated instance, check if the context of the FormField is known. If it is known, then add the correct font-size as an ad-hoc style.
+3. If the context is not known, then we must decide whether to parametrize the component (e.g. add a context attribute that can be either 'auth' or 'user-profile')
+   or create a copy of the component for every context. In the latter case, we must name each copy after the context, e.g. AuthFormField and UserProfileFormField.
+4. After step 3, the typescript compiler will tell us where we broke the code. In each place, we must ask ourselves the same question as in step 3:
+   do we know the context, and if not: do we parametrize or create a copy of the component?
+5. After fixing the code in step 4, we can remove the intrinsic style from the scss file, and remove the comments added in step 1.
