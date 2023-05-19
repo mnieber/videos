@@ -3,11 +3,18 @@ import { cn } from '/src/utils/classnames';
 
 import './ModalContainer.scss';
 
-export type PropsT = React.PropsWithChildren<{ className?: any }>;
+export type PropsT = React.PropsWithChildren<{
+  //
+  className?: any;
+}>;
 
 const ModalContainer = (props: PropsT) => {
   return (
-    <div className={cn('ModalContainer', props.className)}>
+    <div
+      ref={(el: any) => el?.focus()}
+      className={cn('ModalContainer', props.className)}
+      tabIndex={1}
+    >
       {props.children}
     </div>
   );

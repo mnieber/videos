@@ -1,82 +1,65 @@
-import { AnimatePresence, motion } from 'framer-motion';
+import { Flipped } from 'react-flip-toolkit';
 import { L } from '/src/frames/layout';
 import { Slide } from '/src/slides/components/Slide';
 import { Step } from '/src/steps/components/Step';
+import { StepFlipper } from '/src/steps/components/StepFlipper';
 import { cn } from '/src/utils/classnames';
 
 import './AnimatedSlide.scss';
 
-const variants = {
-  visible: { opacity: 1 },
-  hidden: { opacity: 0 },
-};
-
 export const AnimatedSlide = () => {
   return (
-    <Slide id="animated-slide">
-      <AnimatePresence mode="wait">
+    <Slide id="animated-slide" className="grow">
+      <StepFlipper className={cn(L.col.banner(), 'grow')}>
         <Step pos={1} hide={true}>
-          <motion.div
-            className={cn(L.col.skewer(), 'square')}
-            initial="hidden"
-            animate="visible"
-            variants={variants}
-          >
-            <h1 className="title">CSS styles</h1>
-            <h2 className="sub-title">By John Doe</h2>
-          </motion.div>
+          <div className={cn(L.col.skewer(), 'justify-center', 'grow')}>
+            <h1 className={cn(L.Slide.heading.xl(), 'mb-4')}>
+              CSS Style Management
+            </h1>
+            <h2 className={cn(L.Slide.heading.l())}>nieber.code</h2>
+          </div>
         </Step>
 
         <Step pos={2} hide={true}>
-          <motion.div
-            className="split"
-            initial="hidden"
-            animate="visible"
-            variants={variants}
-          >
-            <motion.div
-              className="rectangle"
-              animate={{ x: '-50%' }}
-            ></motion.div>
-            <motion.div
-              className="rectangle"
-              animate={{ x: '50%' }}
-            ></motion.div>
-          </motion.div>
+          <div className="">
+            <Flipped flipId="L">
+              <div
+                className="rectangle green"
+                style={{ marginLeft: '100px' }}
+              ></div>
+            </Flipped>
+            <Flipped flipId="R">
+              <div className="rectangle" style={{ marginTop: '100px' }}></div>
+            </Flipped>
+          </div>
         </Step>
 
         <Step pos={3} hide={true}>
-          <motion.div
-            className="split"
-            initial="hidden"
-            animate="visible"
-            variants={variants}
-          >
-            <motion.div className="rectangle green">
-              <h1 className="title">Part 1</h1>
-            </motion.div>
-            <motion.div className="rectangle">
-              <h1 className="title">Part 2</h1>
-            </motion.div>
-          </motion.div>
+          <div className="">
+            <Flipped flipId="L">
+              <div className="rectangle green" style={{ marginLeft: '200px' }}>
+                <h1 className="title">Part 1</h1>
+              </div>
+            </Flipped>
+            <Flipped flipId="R">
+              <div className="rectangle" style={{ marginTop: '200px' }}>
+                <h1 className="title">Part 2</h1>
+              </div>
+            </Flipped>
+          </div>
         </Step>
 
         <Step pos={4} hide={true}>
-          <motion.div
-            className="split"
-            initial="hidden"
-            animate="visible"
-            variants={variants}
-          >
-            <motion.div className="square green">
+          <div className="">
+            <div className="square green">
               <h1 className="title">SCSS</h1>
-            </motion.div>
-            <motion.div className="square">
+            </div>
+            <div className="square">
               <h1 className="title">Inline styles</h1>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         </Step>
-      </AnimatePresence>
+      </StepFlipper>
     </Slide>
   );
 };

@@ -8,7 +8,7 @@ export type PropsT = React.PropsWithChildren<{
 
 export const Presentation = (props: PropsT) => {
   return (
-    <ModalContainer className={cn('Deck', props.className)}>
+    <ModalContainer className={cn('Presentation', props.className)}>
       {props.children}
     </ModalContainer>
   );

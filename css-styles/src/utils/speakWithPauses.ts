@@ -31,6 +31,7 @@ export const speakWithPauses = async (
   for (let i = 0; i < parts.length; i++) {
     let utterance = new SpeechSynthesisUtterance(parts[i].text);
     utterance.voice = voice;
+    utterance.volume = 0.05;
     window.speechSynthesis.speak(utterance);
     await new Promise((resolve) => {
       utterance.onend = resolve;

@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { useDeckModel } from '/src/deck/hooks/useDeckModel';
+import { L } from '/src/frames/layout';
 import { SlideContext } from '/src/slides/hooks/useSlideModel';
 import { cn } from '/src/utils/classnames';
 
@@ -37,7 +38,9 @@ export const Slide = observer((props: PropsT) => {
 
   return (
     <SlideContext.Provider value={slide}>
-      <div className={cn('Slide', props.className)}>{props.children}</div>
+      <div className={cn('Slide', L.col.banner(), props.className)}>
+        {props.children}
+      </div>
     </SlideContext.Provider>
   );
 });

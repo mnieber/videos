@@ -29,14 +29,7 @@ export const Audio = observer((props: PropsT) => {
     if (step.isCurrent && voices) {
       const voice = voices.find((x) => x.name === 'Google UK English Male');
       if (voice) {
-        if (true) {
-          speakWithPauses(props.text, voice);
-        } else {
-          const utterThis = new SpeechSynthesisUtterance();
-          utterThis.text = props.text;
-          utterThis.voice = voice!;
-          speechSynthesis.speak(utterThis);
-        }
+        speakWithPauses(props.text, voice);
       }
     }
   }, [step.isCurrent, voices, props.text]);

@@ -1,4 +1,10 @@
 export const L = {
+  Slide: {
+    heading: {
+      xl: () => 'text-5xl',
+      l: () => 'text-4xl',
+    },
+  },
   row: {
     skewer: () => 'flex flex-row items-center',
     banner: () => 'flex flex-row items-stretch',

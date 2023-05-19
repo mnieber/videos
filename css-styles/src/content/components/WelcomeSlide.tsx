@@ -30,7 +30,7 @@ export const WelcomeSlide = observer((props: PropsT) => {
         </Indent>
       </Step>
       <Step pos={3}>
-        {false && <FullScreenGif id="2" gifUrl="/src/gif/test.gif" />}
+        {true && <FullScreenGif id="2" gifUrl="/src/gif/test.gif" />}
         <Indent>
           <div>One</div>
           <Indent>
