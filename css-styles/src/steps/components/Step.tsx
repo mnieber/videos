@@ -8,6 +8,7 @@ import './Step.scss';
 
 export type PropsT = React.PropsWithChildren<{
   pos: number;
+  hide?: boolean;
   preview?: boolean;
 }>;
 
@@ -30,6 +31,10 @@ export const Step = observer((props: PropsT) => {
   }
 
   if (!step.isPresent && !step.isPreviewed) {
+    return null;
+  }
+
+  if (props.hide && !step.isCurrent) {
     return null;
   }
 
