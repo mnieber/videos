@@ -10,6 +10,7 @@ import './Slide.scss';
 
 export type PropsT = React.PropsWithChildren<{
   id: string;
+  nrOfSteps: number;
   className?: string;
 }>;
 
@@ -23,7 +24,7 @@ export const Slide = observer((props: PropsT) => {
 
   React.useEffect(() => {
     if (deck) {
-      deck.createSlide(slideId);
+      deck.createSlide(slideId, props.nrOfSteps);
     }
   }, [deck, slideId]);
 

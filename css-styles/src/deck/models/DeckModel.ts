@@ -10,7 +10,11 @@ export class DeckModel {
     makeObservable(this);
 
     autorun(() => {
-      console.log('At', this.currentSlideId, this.currentSlide?.currentStepPos);
+      console.log(
+        'At',
+        this.currentSlideId,
+        this.currentSlide?.currentStepIndex
+      );
     });
   }
 
@@ -22,13 +26,13 @@ export class DeckModel {
     return this.currentSlideId ? this.getSlide(this.currentSlideId) : undefined;
   }
 
-  @action createSlide(id: string): SlideModel {
+  @action createSlide(id: string, steps: number): SlideModel {
     let slide = this.getSlide(id);
     if (slide) {
       return slide;
     }
 
-    slide = new SlideModel(this, id);
+    slide = new SlideModel(this, id, steps);
     this.slides.push(slide);
 
     if (R.isNil(this.currentSlideId)) {

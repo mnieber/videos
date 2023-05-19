@@ -8,11 +8,11 @@ export type PropsT = React.PropsWithChildren<{ className?: any }>;
 
 export const StepFlipper = observer((props: PropsT) => {
   const slideModel = useSlideModel();
-  console.log('step to ', slideModel.currentStepPos);
+  console.log('step to ', slideModel.currentStepIndex);
 
   return (
     <Flipper
-      flipKey={slideModel.currentStepPos}
+      flipKey={slideModel.currentStepIndex}
       className={cn('StepFlipper', props.className)}
     >
       {props.children}

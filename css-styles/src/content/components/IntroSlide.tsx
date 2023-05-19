@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import { Slide } from '/src/slides/components/Slide';
-import { Step } from '/src/steps/components/Step';
+import { useSlideModel } from '/src/slides/hooks/useSlideModel';
 
 export type PropsT = {
   className?: any;
@@ -8,13 +8,20 @@ export type PropsT = {
 
 export const IntroSlide = observer((props: PropsT) => {
   return (
-    <Slide id="Intro">
-      <Step pos={1}>
-        <div>Intro</div>
-      </Step>
-      <Step pos={2}>
-        <div>Time</div>
-      </Step>
+    <Slide id="Intro" nrOfSteps={2}>
+      <IntroSlideInner />
     </Slide>
+  );
+});
+
+const IntroSlideInner = observer(() => {
+  const slideModel = useSlideModel();
+  const step = slideModel.currentStepIndex;
+
+  return (
+    <>
+      {step >= 0 && <div>Intro</div>}
+      {step >= 1 && <div>Time</div>}
+    </>
   );
 });

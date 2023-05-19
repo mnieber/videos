@@ -19,7 +19,10 @@ export const Dashboard = observer((props: PropsT) => {
   return (
     <div className={cn('Dashboard', L.row.banner(), props.className)}>
       <DeckKeyHandler className={cn(L.col.banner(), 'grow')}>
-        <Presentation className={cn(L.col.banner(), 'w-[1920px] h-[1080px]')}>
+        <Presentation
+          className={cn(L.col.banner(), 'w-[1920px] h-[1080px]')}
+          autoFocus={true}
+        >
           {true && <AnimatedSlide />}
           {false && (
             <>
