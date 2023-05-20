@@ -1,62 +1,76 @@
-import { action, makeObservable, observable } from 'mobx';
 import * as R from 'ramda';
+import { cn } from '/src/utils/classnames';
+import { deepCopy } from '/src/utils/deepCopy';
+import { ObjT } from '/src/utils/types';
 
-type Direction = 'row' | 'col';
-type JustifyContent =
+type DirectionT = 'row' | 'col';
+type JustifyContentT =
   | 'start'
   | 'end'
   | 'center'
   | 'space-between'
   | 'space-around'
   | 'space-evenly';
-type AlignItems = 'start' | 'end' | 'center' | 'stretch';
+type AlignItemsT = 'start' | 'end' | 'center' | 'stretch';
 
-export class Actor {
-  @observable x: number;
-  @observable y: number;
-  @observable width: number;
-  @observable height: number;
+export type ActorT = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  className?: ObjT;
+};
 
-  constructor(x: number, y: number, width: number, height: number) {
-    makeObservable(this);
-    this.x = x;
-    this.y = y;
-    this.width = width;
-    this.height = height;
+type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>;
+
+export const createActor = (
+  props: Optional<ActorT, 'x' | 'y' | 'className'>
+) => {
+  return {
+    x: props.x ?? 0,
+    y: props.y ?? 0,
+    width: props.width,
+    height: props.height,
+    className: props.className,
+  };
+};
+
+export const flex = (
+  container: ActorT,
+  actors: ActorT[],
+  direction: DirectionT,
+  justifyContent?: JustifyContentT,
+  alignItems?: AlignItemsT
+) => {
+  if (!(justifyContent || alignItems)) {
+    return;
   }
-}
 
-export const flex = action(
-  (
-    container: Actor,
-    actors: Actor[],
-    direction: Direction,
-    justifyContent?: JustifyContent,
-    alignItems?: AlignItems
-  ) => {
-    // Delegate the positioning of actors to private methods
-    if (direction === 'row') {
-      _positionActorsRow(container, actors);
-      if (!R.isNil(justifyContent)) {
-        _justifyContentRow(container, actors, justifyContent);
-      }
-      if (!R.isNil(alignItems)) {
-        _alignItemsRow(container, actors, alignItems);
-      }
-    } else {
-      // direction is 'col'
-      _positionActorsCol(container, actors);
-      if (!R.isNil(justifyContent)) {
-        _justifyContentCol(container, actors, justifyContent);
-      }
-      if (!R.isNil(alignItems)) {
-        _alignItemsCol(container, actors, alignItems);
-      }
+  actors = deepCopy(actors);
+
+  // Delegate the positioning of actors to private methods
+  if (direction === 'row') {
+    _positionActorsRow(container, actors);
+
+    if (!R.isNil(justifyContent)) {
+      _justifyContentRow(container, actors, justifyContent);
+    }
+    if (!R.isNil(alignItems)) {
+      _alignItemsRow(container, actors, alignItems);
+    }
+  } else if (direction === 'col') {
+    _positionActorsCol(container, actors);
+
+    if (!R.isNil(justifyContent)) {
+      _justifyContentCol(container, actors, justifyContent);
+    }
+    if (!R.isNil(alignItems)) {
+      _alignItemsCol(container, actors, alignItems);
     }
   }
-);
+};
 
-function _positionActorsRow(container: Actor, actors: Actor[]) {
+function _positionActorsRow(container: ActorT, actors: ActorT[]) {
   let totalWidth = 0;
   for (const actor of actors) {
     actor.x = totalWidth;
@@ -64,7 +78,7 @@ function _positionActorsRow(container: Actor, actors: Actor[]) {
   }
 }
 
-function _positionActorsCol(container: Actor, actors: Actor[]) {
+function _positionActorsCol(container: ActorT, actors: ActorT[]) {
   let totalHeight = 0;
   for (const actor of actors) {
     actor.y = totalHeight;
@@ -73,9 +87,9 @@ function _positionActorsCol(container: Actor, actors: Actor[]) {
 }
 
 function _justifyContentRow(
-  container: Actor,
-  actors: Actor[],
-  justifyContent: JustifyContent
+  container: ActorT,
+  actors: ActorT[],
+  justifyContent: JustifyContentT
 ) {
   let totalWidth = actors.reduce((acc, actor) => acc + actor.width, 0);
   let remainingSpace = container.width - totalWidth;
@@ -118,9 +132,9 @@ function _justifyContentRow(
 }
 
 function _justifyContentCol(
-  container: Actor,
-  actors: Actor[],
-  justifyContent: JustifyContent
+  container: ActorT,
+  actors: ActorT[],
+  justifyContent: JustifyContentT
 ) {
   let totalHeight = actors.reduce((acc, actor) => acc + actor.height, 0);
   let remainingSpace = container.height - totalHeight;
@@ -163,9 +177,9 @@ function _justifyContentCol(
 }
 
 function _alignItemsRow(
-  container: Actor,
-  actors: Actor[],
-  alignItems: AlignItems
+  container: ActorT,
+  actors: ActorT[],
+  alignItems: AlignItemsT
 ) {
   switch (alignItems) {
     case 'start':
@@ -193,9 +207,9 @@ function _alignItemsRow(
 }
 
 function _alignItemsCol(
-  container: Actor,
-  actors: Actor[],
-  alignItems: AlignItems
+  container: ActorT,
+  actors: ActorT[],
+  alignItems: AlignItemsT
 ) {
   switch (alignItems) {
     case 'start':
@@ -221,3 +235,22 @@ function _alignItemsCol(
       break;
   }
 }
+
+export const acn = (actor: ActorT, ...keys: string[]) => {
+  const result: any[] = [
+    `h-${actor.height}px`,
+    `w-${actor.width}px`,
+    `left-${actor.x}px`,
+    `top-${actor.y}px`,
+  ];
+
+  for (const key of keys) {
+    const path = key.split('.');
+    const style = R.path(path, actor.className ?? {});
+    if (!R.isNil(style)) {
+      result.push(style);
+    }
+  }
+
+  return cn(result);
+};
