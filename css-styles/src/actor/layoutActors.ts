@@ -15,12 +15,13 @@ type AlignItemsT = 'start' | 'end' | 'center' | 'stretch';
 type OptionsT = {
   justifyContent?: JustifyContentT;
   alignItems?: AlignItemsT;
+  gap?: number;
 };
 
 export const layoutActors = (
   container: ActorT,
   actors: ActorT[],
-  direction: DirectionT,
+  direction?: DirectionT,
   options?: OptionsT
 ): { [key: string]: ActorT } => {
   actors = deepCopy(actors);
@@ -32,7 +33,12 @@ export const layoutActors = (
       _positionActorsRow(container, actors);
 
       if (!R.isNil(options.justifyContent)) {
-        _justifyContentRow(container, actors, options.justifyContent);
+        _justifyContentRow(
+          container,
+          actors,
+          options.justifyContent,
+          options.gap ?? 0
+        );
       }
       if (!R.isNil(options.alignItems)) {
         _alignItemsRow(container, actors, options.alignItems);
@@ -41,7 +47,12 @@ export const layoutActors = (
       _positionActorsCol(container, actors);
 
       if (!R.isNil(options.justifyContent)) {
-        _justifyContentCol(container, actors, options.justifyContent);
+        _justifyContentCol(
+          container,
+          actors,
+          options.justifyContent,
+          options.gap ?? 0
+        );
       }
       if (!R.isNil(options.alignItems)) {
         _alignItemsCol(container, actors, options.alignItems);
@@ -70,15 +81,20 @@ function _positionActorsCol(container: ActorT, actors: ActorT[]) {
 function _justifyContentRow(
   container: ActorT,
   actors: ActorT[],
-  justifyContent: JustifyContentT
+  justifyContent: JustifyContentT,
+  gap: number
 ) {
   let totalWidth = actors.reduce((acc, actor) => acc + actor.width, 0);
-  let remainingSpace = container.width - totalWidth;
-  let numSpaces = actors.length - 1;
+  let remainingSpace = container.width - totalWidth - gap * (actors.length - 1);
+
+  // Add gap between all actors
+  for (let i = 0; i < actors.length; i++) {
+    actors[i].x += i * gap;
+  }
 
   switch (justifyContent) {
     case 'start':
-      // Actors are already at the start. No action needed.
+      // Actors are already at the start with gaps. No further action needed.
       break;
     case 'end':
       for (const actor of actors) {
@@ -91,13 +107,15 @@ function _justifyContentRow(
       }
       break;
     case 'space-between':
-      let space = numSpaces > 0 ? remainingSpace / numSpaces : 0;
-      for (let i = 0; i < actors.length; i++) {
-        actors[i].x += i * space;
+      if (actors.length > 1) {
+        let space = remainingSpace / (actors.length - 1);
+        for (let i = 0; i < actors.length; i++) {
+          actors[i].x += i * space;
+        }
       }
       break;
     case 'space-around':
-      let spacePerSide = numSpaces > 0 ? remainingSpace / numSpaces : 0;
+      let spacePerSide = remainingSpace / (2 * actors.length);
       for (let i = 0; i < actors.length; i++) {
         actors[i].x += i * spacePerSide + spacePerSide / 2;
       }
@@ -116,15 +134,20 @@ function _justifyContentCol(
   container: ActorT,
   actors: ActorT[],
   justifyContent: JustifyContentT,
-  gap: number = 0
+  gap: number
 ) {
   let totalHeight = actors.reduce((acc, actor) => acc + actor.height, 0);
-  let remainingSpace = container.height - totalHeight;
-  let numSpaces = actors.length - 1;
+  let remainingSpace =
+    container.height - totalHeight - gap * (actors.length - 1);
+
+  // Add gap between all actors
+  for (let i = 0; i < actors.length; i++) {
+    actors[i].y += i * gap;
+  }
 
   switch (justifyContent) {
     case 'start':
-      // Actors are already at the start. No action needed.
+      // Actors are already at the start with gaps. No further action needed.
       break;
     case 'end':
       for (const actor of actors) {
@@ -137,13 +160,15 @@ function _justifyContentCol(
       }
       break;
     case 'space-between':
-      let space = numSpaces > 0 ? remainingSpace / numSpaces : 0;
-      for (let i = 0; i < actors.length; i++) {
-        actors[i].y += i * space;
+      if (actors.length > 1) {
+        let space = remainingSpace / (actors.length - 1);
+        for (let i = 0; i < actors.length; i++) {
+          actors[i].y += i * space;
+        }
       }
       break;
     case 'space-around':
-      let spacePerSide = numSpaces > 0 ? remainingSpace / numSpaces : 0;
+      let spacePerSide = remainingSpace / (2 * actors.length);
       for (let i = 0; i < actors.length; i++) {
         actors[i].y += i * spacePerSide + spacePerSide / 2;
       }
@@ -155,11 +180,6 @@ function _justifyContentCol(
         actors[i].y += (i + 1) * segmentSpace;
       }
       break;
-  }
-
-  // Adjusting y values based on the gap
-  for (let i = 1; i < actors.length; i++) {
-    actors[i].y = actors[i - 1].y + actors[i - 1].height + gap;
   }
 }
 

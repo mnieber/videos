@@ -1,5 +1,4 @@
 import { observer } from 'mobx-react-lite';
-import { Flipped } from 'react-flip-toolkit';
 import { createActor } from '/src/actor/Actor';
 import { ActorDiv } from '/src/actor/components/ActorDiv';
 import { layoutActors } from '/src/actor/layoutActors';
@@ -15,7 +14,7 @@ export type PropsT = {};
 
 export const AnimatedSlide = observer((props: PropsT) => {
   return (
-    <Slide id="animated-slide" className="grow" nrOfSteps={4}>
+    <Slide id="animated-slide" className="grow" nrOfSteps={6}>
       <StepFlipper className={cn('AnimatedSlide', L.col.banner(), 'grow')}>
         <AnimatedSlideInner {...props} />
       </StepFlipper>
@@ -31,14 +30,46 @@ const AnimatedSlideInner = observer((props: PropsT) => {
   const a = {
     L: createL(),
     R: createR(),
-    L1: createL1(),
-    L2: createL2(),
   };
 
+  // 🔳 Step 1
   const step1 = layoutActors(container, [a.L, a.R], 'row', {
     justifyContent: 'center',
   });
-  console.log(step1.L!);
+
+  // 🔳 Step 2
+  const step2 = layoutActors(container, [a.L, a.R], 'row', {
+    justifyContent: 'center',
+    gap: 100,
+  });
+
+  // 🔳 Step 3
+  const step3 = layoutActors(container, [
+    step2.L,
+    step2.R,
+    { ...step2.L, name: 'L1' },
+    { ...step2.L, name: 'L2' },
+  ]);
+
+  // 🔳 Step 4
+  const step4 = layoutActors(container, [
+    step3.L,
+    step3.R,
+    step3.L1,
+    step3.L2,
+    step3.R,
+  ]);
+  step4.L1.y += 300;
+  step4.L2.y += 600;
+
+  // 🔳 Step 5
+  const step5 = layoutActors(container, [
+    step4.L,
+    step4.R,
+    step4.L1,
+    step4.L2,
+    step4.R,
+  ]);
 
   return (
     <>
@@ -53,39 +84,65 @@ const AnimatedSlideInner = observer((props: PropsT) => {
 
       {step === 1 && (
         <div className={cn('grow', 'relative')}>
-          <Flipped flipId="L">
-            <ActorDiv actor={step1.L} pick={['root', 'color.blue']}></ActorDiv>
-          </Flipped>
-          <Flipped flipId="R">
-            <ActorDiv actor={step1.R} pick={['root', 'color.blue']}></ActorDiv>
-          </Flipped>
+          <ActorDiv actor={step1.L} pick={['root', 'color.blue']}></ActorDiv>
+          <ActorDiv actor={step1.R} pick={['root', 'color.blue']}></ActorDiv>
         </div>
       )}
 
-      {step >= 2 && (
+      {step === 2 && (
         <div className={cn('grow', 'relative')}>
-          {step === 2 && (
-            <Flipped flipId="L">
-              <ActorDiv actor={a.L} pick={['root', 'color.green']}>
-                <h1 className="title">Part 1</h1>
-              </ActorDiv>
-            </Flipped>
-          )}
-          <Flipped flipId="R">
-            <ActorDiv actor={a.R} pick={['root', 'color.blue']}>
-              <h1 className="title">Part 2</h1>
-            </ActorDiv>
-          </Flipped>
+          <ActorDiv actor={step2.L} pick={['root', 'color.green']}>
+            <h1 className="title">Part 1</h1>
+          </ActorDiv>
+          <ActorDiv actor={step2.R} pick={['root', 'color.blue']}>
+            <h1 className="title">Part 2</h1>
+          </ActorDiv>
         </div>
       )}
 
       {step === 3 && (
         <div className={cn('grow', 'relative')}>
-          <ActorDiv actor={a.L1} pick={['root']}>
+          <ActorDiv actor={step3.L1} pick={['root', 'color.green']}></ActorDiv>
+          <ActorDiv actor={step3.L2} pick={['root', 'color.green']}></ActorDiv>
+          <ActorDiv actor={step3.L} pick={['root', 'color.green']}>
+            <h1 className="title">Part 1</h1>
+          </ActorDiv>
+          <ActorDiv actor={step3.R} pick={['root', 'color.blue']}>
+            <h1 className="title">Part 2</h1>
+          </ActorDiv>
+        </div>
+      )}
+
+      {step === 4 && (
+        <div className={cn('grow', 'relative')}>
+          <ActorDiv actor={step4.L1} pick={['root', 'color.green']}>
             <h1 className="title">SCSS</h1>
           </ActorDiv>
-          <ActorDiv actor={a.L2} pick={['root']}>
+          <ActorDiv actor={step4.L2} pick={['root', 'color.green']}>
             <h1 className="title">Inline styles</h1>
+          </ActorDiv>
+          <ActorDiv actor={step4.L} pick={['root', 'color.green']}>
+            <h1 className="title">Part 1</h1>
+          </ActorDiv>
+          <ActorDiv actor={step4.R} pick={['root', 'color.blue']}>
+            <h1 className="title">Part 2</h1>
+          </ActorDiv>
+        </div>
+      )}
+
+      {step === 5 && (
+        <div className={cn('grow', 'relative')}>
+          <ActorDiv actor={step5.L1} pick={['root', 'color.green']}>
+            <h1 className="title">SCSS</h1>
+          </ActorDiv>
+          <ActorDiv actor={step5.L2} pick={['root', 'color.green']}>
+            <h1 className="title">Inline styles</h1>
+          </ActorDiv>
+          <ActorDiv actor={step5.L} pick={['root', 'color.green']}>
+            <h1 className="title">Part 1</h1>
+          </ActorDiv>
+          <ActorDiv actor={step5.R} pick={['root', 'color.blue']}>
+            <h1 className="title">Part 2</h1>
           </ActorDiv>
         </div>
       )}
@@ -105,8 +162,8 @@ function createL() {
   return createActor({
     name: 'L',
     height: 200,
-    width: 100,
-    x: 50,
+    width: 300,
+    x: 0,
     y: 100,
     className: {
       root: ['absolute', 'rectangle'],
@@ -119,33 +176,9 @@ function createR() {
   return createActor({
     name: 'R',
     height: 200,
-    width: 100,
-    x: 180,
+    width: 300,
+    x: 0,
     y: 100,
-    className: {
-      root: ['absolute', 'rectangle'],
-      color: { green: 'green', blue: 'blue' },
-    },
-  });
-}
-
-function createL1() {
-  return createActor({
-    name: 'L1',
-    height: 100,
-    width: 100,
-    className: {
-      root: ['absolute', 'rectangle'],
-      color: { green: 'green', blue: 'blue' },
-    },
-  });
-}
-
-function createL2() {
-  return createActor({
-    name: 'L2',
-    height: 30,
-    width: 30,
     className: {
       root: ['absolute', 'rectangle'],
       color: { green: 'green', blue: 'blue' },

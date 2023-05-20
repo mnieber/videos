@@ -1,5 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import React from 'react';
+import { Flipped } from 'react-flip-toolkit';
 import { acn, ActorT } from '/src/actor/Actor';
 import { cn } from '/src/utils/classnames';
 
@@ -20,12 +21,14 @@ export const ActorDiv = observer((props: PropsT) => {
   };
 
   return (
-    <div
-      className={cn(acn(actor, ...pick), props.className)}
-      style={style}
-      {...rest}
-    >
-      {props.children}
-    </div>
+    <Flipped flipId={actor.name}>
+      <div
+        className={cn(acn(actor, ...pick), props.className)}
+        style={style}
+        {...rest}
+      >
+        {props.children}
+      </div>
+    </Flipped>
   );
 });
