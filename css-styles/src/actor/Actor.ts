@@ -8,21 +8,19 @@ export type ActorT = {
   y: number;
   width: number;
   height: number;
-  className?: ObjT;
+  layout: ObjT;
 };
 
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>;
 
-export const createActor = (
-  props: Optional<ActorT, 'x' | 'y' | 'className'>
-) => {
+export const createActor = (props: Optional<ActorT, 'x' | 'y' | 'layout'>) => {
   return {
     name: props.name,
     x: props.x ?? 0,
     y: props.y ?? 0,
     width: props.width,
     height: props.height,
-    className: props.className,
+    layout: props.layout ?? {},
   };
 };
 
@@ -31,11 +29,16 @@ export const acn = (actor: ActorT, ...keys: string[]) => {
 
   for (const key of keys) {
     const path = key.split('.');
-    const style = R.path(path, actor.className ?? {});
+    const style = R.path(path, actor.layout ?? {});
     if (!R.isNil(style)) {
       result.push(style);
     }
   }
 
   return cn(result);
+};
+
+export const copyActor = (actor: ActorT) => {
+  const copy = R.clone(actor);
+  return copy;
 };

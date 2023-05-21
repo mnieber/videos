@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import { createActor } from '/src/actor/Actor';
-import { ActorDiv } from '/src/actor/components/ActorDiv';
+import { Container, createDiv } from '/src/actor/container';
 import { layoutActors } from '/src/actor/layoutActors';
 import { L } from '/src/frames/layout';
 import { Slide } from '/src/slides/components/Slide';
@@ -26,50 +26,70 @@ const AnimatedSlideInner = observer((props: PropsT) => {
   const slideModel = useSlideModel();
   const step = slideModel.currentStepIndex;
 
-  const container = createContainer();
-  const a = {
-    L: createL(),
-    R: createR(),
-  };
+  const container = new Container({
+    height: 1080,
+    width: 1920,
+    layout: <div></div>,
+    actors: {
+      L: createL(),
+      R: createR(),
+      L1: { ...createL(), visible: false },
+      L2: { ...createL(), visible: false },
+      R1: { ...createR(), visible: false },
+    },
+  });
 
   // 🔳 Step 1
-  const step1 = layoutActors(container, [a.L, a.R], 'row', {
+  // We show L and R side by side
+  const step1 = container.copy();
+  // TODO Use cloneElement to set children
+  step1.layout = <div className={cn('grow', 'relative')}></div>;
+  layoutActors(step1, [step1.actors.L, step1.actors.R], 'row', {
     justifyContent: 'center',
   });
 
   // 🔳 Step 2
-  const step2 = layoutActors(container, [a.L, a.R], 'row', {
+  // L and R move apart and show "Part 1" and "Part 2"
+  const step2 = step1.copy();
+  layoutActors(step2, [step2.actors.L, step2.actors.R], 'row', {
     justifyContent: 'center',
     gap: 100,
   });
+  step2.update({
+    L: { child: <h1 className="title">Part 1</h1> },
+    R: { child: <h1 className="title">Part 2</h1> },
+  });
 
   // 🔳 Step 3
-  const step3 = layoutActors(container, [
-    step2.L,
-    step2.R,
-    { ...step2.L, name: 'L1' },
-    { ...step2.L, name: 'L2' },
-  ]);
+  // L1 and L2 become visible
+  const step3 = step2.copy();
+  step3.update({
+    L1: { visible: true, posFrom: step3.actors.L },
+    L2: { visible: true, posFrom: step3.actors.L },
+  });
 
   // 🔳 Step 4
-  const step4 = layoutActors(container, [
-    step3.L,
-    step3.R,
-    step3.L1,
-    step3.L2,
-    step3.R,
-  ]);
-  step4.L1.y += 300;
-  step4.L2.y += 600;
+  // L1 and L2 move down and get content, R1 becomes visible
+  const step4 = step3.copy();
+  step4.update({
+    L1: { dy: 300 },
+    L2: { dy: 600 },
+    R1: { visible: true, posFrom: step4.actors.R },
+  });
+  step4.update({
+    L1: { child: <h1 className="title">SCSS</h1> },
+    L2: { child: <h1 className="title">Inline Styles</h1> },
+  });
 
   // 🔳 Step 5
-  const step5 = layoutActors(container, [
-    step4.L,
-    step4.R,
-    step4.L1,
-    step4.L2,
-    step4.R,
-  ]);
+  // R1 moves down and gets content
+  const step5 = step4.copy();
+  step5.update({
+    R1: { dy: 300 },
+  });
+  step5.update({
+    R1: { child: <h1 className="title">Custom solution</h1> },
+  });
 
   return (
     <>
@@ -81,82 +101,14 @@ const AnimatedSlideInner = observer((props: PropsT) => {
           <h2 className={cn(L.Slide.heading.l())}>nieber.code</h2>
         </div>
       )}
-
-      {step === 1 && (
-        <div className={cn('grow', 'relative')}>
-          <ActorDiv actor={step1.L} pick={['root', 'color.blue']}></ActorDiv>
-          <ActorDiv actor={step1.R} pick={['root', 'color.blue']}></ActorDiv>
-        </div>
-      )}
-
-      {step === 2 && (
-        <div className={cn('grow', 'relative')}>
-          <ActorDiv actor={step2.L} pick={['root', 'color.green']}>
-            <h1 className="title">Part 1</h1>
-          </ActorDiv>
-          <ActorDiv actor={step2.R} pick={['root', 'color.blue']}>
-            <h1 className="title">Part 2</h1>
-          </ActorDiv>
-        </div>
-      )}
-
-      {step === 3 && (
-        <div className={cn('grow', 'relative')}>
-          <ActorDiv actor={step3.L1} pick={['root', 'color.green']}></ActorDiv>
-          <ActorDiv actor={step3.L2} pick={['root', 'color.green']}></ActorDiv>
-          <ActorDiv actor={step3.L} pick={['root', 'color.green']}>
-            <h1 className="title">Part 1</h1>
-          </ActorDiv>
-          <ActorDiv actor={step3.R} pick={['root', 'color.blue']}>
-            <h1 className="title">Part 2</h1>
-          </ActorDiv>
-        </div>
-      )}
-
-      {step === 4 && (
-        <div className={cn('grow', 'relative')}>
-          <ActorDiv actor={step4.L1} pick={['root', 'color.green']}>
-            <h1 className="title">SCSS</h1>
-          </ActorDiv>
-          <ActorDiv actor={step4.L2} pick={['root', 'color.green']}>
-            <h1 className="title">Inline styles</h1>
-          </ActorDiv>
-          <ActorDiv actor={step4.L} pick={['root', 'color.green']}>
-            <h1 className="title">Part 1</h1>
-          </ActorDiv>
-          <ActorDiv actor={step4.R} pick={['root', 'color.blue']}>
-            <h1 className="title">Part 2</h1>
-          </ActorDiv>
-        </div>
-      )}
-
-      {step === 5 && (
-        <div className={cn('grow', 'relative')}>
-          <ActorDiv actor={step5.L1} pick={['root', 'color.green']}>
-            <h1 className="title">SCSS</h1>
-          </ActorDiv>
-          <ActorDiv actor={step5.L2} pick={['root', 'color.green']}>
-            <h1 className="title">Inline styles</h1>
-          </ActorDiv>
-          <ActorDiv actor={step5.L} pick={['root', 'color.green']}>
-            <h1 className="title">Part 1</h1>
-          </ActorDiv>
-          <ActorDiv actor={step5.R} pick={['root', 'color.blue']}>
-            <h1 className="title">Part 2</h1>
-          </ActorDiv>
-        </div>
-      )}
+      {step === 1 && createDiv(step1)}
+      {step === 2 && createDiv(step2)}
+      {step === 3 && createDiv(step3)}
+      {step === 4 && createDiv(step4)}
+      {step === 5 && createDiv(step5)}
     </>
   );
 });
-
-function createContainer() {
-  return createActor({
-    name: 'Container',
-    height: 1080,
-    width: 1920,
-  });
-}
 
 function createL() {
   return createActor({
@@ -165,7 +117,7 @@ function createL() {
     width: 300,
     x: 0,
     y: 100,
-    className: {
+    layout: {
       root: ['absolute', 'rectangle'],
       color: { green: 'green', blue: 'blue' },
     },
@@ -179,7 +131,7 @@ function createR() {
     width: 300,
     x: 0,
     y: 100,
-    className: {
+    layout: {
       root: ['absolute', 'rectangle'],
       color: { green: 'green', blue: 'blue' },
     },

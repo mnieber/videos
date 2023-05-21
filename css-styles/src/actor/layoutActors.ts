@@ -1,5 +1,6 @@
 import * as R from 'ramda';
 import { ActorT } from '/src/actor/Actor';
+import { Container } from '/src/actor/container';
 import { deepCopy } from '/src/utils/deepCopy';
 
 type DirectionT = 'row' | 'col';
@@ -19,7 +20,7 @@ type OptionsT = {
 };
 
 export const layoutActors = (
-  container: ActorT,
+  container: Container,
   actors: ActorT[],
   direction?: DirectionT,
   options?: OptionsT
@@ -62,7 +63,7 @@ export const layoutActors = (
   return R.indexBy(R.prop('name'), actors);
 };
 
-function _positionActorsRow(container: ActorT, actors: ActorT[]) {
+function _positionActorsRow(container: Container, actors: ActorT[]) {
   let totalWidth = 0;
   for (const actor of actors) {
     actor.x = totalWidth;
@@ -70,7 +71,7 @@ function _positionActorsRow(container: ActorT, actors: ActorT[]) {
   }
 }
 
-function _positionActorsCol(container: ActorT, actors: ActorT[]) {
+function _positionActorsCol(container: Container, actors: ActorT[]) {
   let totalHeight = 0;
   for (const actor of actors) {
     actor.y = totalHeight;
@@ -79,7 +80,7 @@ function _positionActorsCol(container: ActorT, actors: ActorT[]) {
 }
 
 function _justifyContentRow(
-  container: ActorT,
+  container: Container,
   actors: ActorT[],
   justifyContent: JustifyContentT,
   gap: number
@@ -131,7 +132,7 @@ function _justifyContentRow(
 }
 
 function _justifyContentCol(
-  container: ActorT,
+  container: Container,
   actors: ActorT[],
   justifyContent: JustifyContentT,
   gap: number
@@ -184,7 +185,7 @@ function _justifyContentCol(
 }
 
 function _alignItemsRow(
-  container: ActorT,
+  container: Container,
   actors: ActorT[],
   alignItems: AlignItemsT
 ) {
@@ -214,7 +215,7 @@ function _alignItemsRow(
 }
 
 function _alignItemsCol(
-  container: ActorT,
+  container: Container,
   actors: ActorT[],
   alignItems: AlignItemsT
 ) {
