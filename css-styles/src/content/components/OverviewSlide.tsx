@@ -14,15 +14,15 @@ export type PropsT = {};
 
 export const OverviewSlide = observer((props: PropsT) => {
   return (
-    <Slide id="animated-slide" className="grow" nrOfSteps={6}>
+    <Slide id="overview-slide" className="grow" nrOfSteps={6}>
       <StepFlipper className={cn('OverviewSlide', L.col.banner(), 'grow')}>
-        <AnimatedSlideInner {...props} />
+        <OverviewSlideInner {...props} />
       </StepFlipper>
     </Slide>
   );
 });
 
-const AnimatedSlideInner = observer((props: PropsT) => {
+const OverviewSlideInner = observer((props: PropsT) => {
   const slideModel = useSlideModel();
   const step = slideModel.currentStepIndex;
 
