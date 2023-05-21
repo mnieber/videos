@@ -1,10 +1,11 @@
 import { observer } from 'mobx-react-lite';
-import { Indent } from '/src/frames/components/Indent';
+import { createActor } from '/src/actor/Actor';
+import { Container, createDiv } from '/src/actor/Container';
+import { TypescriptCard } from '/src/shapes/components/TypescriptCard';
 import { Slide } from '/src/slides/components/Slide';
 import { useSlideModel } from '/src/slides/hooks/useSlideModel';
 import { Audio } from '/src/steps/components/Audio';
-import { Bullet } from '/src/steps/components/Bullet';
-import { FullScreenGif } from '/src/steps/components/FullScreenGif';
+import { cn } from '/src/utils/classnames';
 
 export type PropsT = {
   className?: any;
@@ -12,7 +13,7 @@ export type PropsT = {
 
 export const ScssSlide = observer((props: PropsT) => {
   return (
-    <Slide id="Welcome" nrOfSteps={5}>
+    <Slide id="Welcome" nrOfSteps={1}>
       <ScssSlideInner />
     </Slide>
   );
@@ -29,40 +30,50 @@ const ScssSlideInner = observer((props: PropsT) => {
   const slideModel = useSlideModel();
   const step = slideModel.currentStepIndex;
 
-  return (
-    <>
-      {step >= 0 && <div>CSS style management</div>}
-      {step >= 1 && (
-        <>
-          <Audio text={text} />
-          <div>Part 1</div>
-          <Indent>
-            <div>SCSS files</div>
-            <div className="flex flex-row">
-              Inline styles{' '}
-              {step >= 4 && <div className="ml-2">The winner is</div>}
-            </div>
-          </Indent>
-        </>
-      )}
+  const container = new Container({
+    height: 1080,
+    width: 1920,
+    layout: <div className={cn('grow', 'relative')}></div>,
+    actors: {
+      L: createL(),
+      R1: { ...createR() },
+      R2: { ...createR() },
+      R3: { ...createR() },
+    },
+  });
+  container.update({
+    L: { child: <Audio text={text} /> },
+    R2: { dy: 300 },
+    R3: { dy: 600, child: <TypescriptCard /> },
+  });
 
-      {step >= 2 && (
-        <>
-          {true && <FullScreenGif id="2" gifUrl="/src/gif/test.gif" />}
-          <Indent>
-            <div>One</div>
-            <Indent>
-              <div>Two</div>
-              {step >= 4 && <div>Two point five</div>}
-              <div>Three</div>
-              <Indent>
-                <div>Four</div>
-              </Indent>
-            </Indent>
-          </Indent>
-        </>
-      )}
-      {step >= 0 && <Bullet isPreviewed={step <= 2}>You can be quick</Bullet>}
-    </>
-  );
+  return <>{step === 0 && createDiv(container)}</>;
 });
+
+function createL() {
+  return createActor({
+    name: 'L',
+    height: 200,
+    width: 300,
+    x: 0,
+    y: 100,
+    styles: {
+      root: ['bg-blue-400'],
+    },
+    pickStyles: ['root'],
+  });
+}
+
+function createR() {
+  return createActor({
+    name: 'R',
+    height: 200,
+    width: 300,
+    x: 500,
+    y: 100,
+    styles: {
+      root: ['bg-blue-400'],
+    },
+    pickStyles: ['root'],
+  });
+}
