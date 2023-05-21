@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import { createActor } from '/src/actor/Actor';
-import { Container, createDiv } from '/src/actor/container';
+import { Container, createDiv } from '/src/actor/Container';
 import { layoutActors } from '/src/actor/layoutActors';
 import { L } from '/src/frames/layout';
 import { Slide } from '/src/slides/components/Slide';
@@ -29,7 +29,7 @@ const AnimatedSlideInner = observer((props: PropsT) => {
   const container = new Container({
     height: 1080,
     width: 1920,
-    layout: <div></div>,
+    layout: <div className={cn('grow', 'relative')}></div>,
     actors: {
       L: createL(),
       R: createR(),
@@ -42,8 +42,6 @@ const AnimatedSlideInner = observer((props: PropsT) => {
   // 🔳 Step 1
   // We show L and R side by side
   const step1 = container.copy();
-  // TODO Use cloneElement to set children
-  step1.layout = <div className={cn('grow', 'relative')}></div>;
   layoutActors(step1, [step1.actors.L, step1.actors.R], 'row', {
     justifyContent: 'center',
   });
@@ -56,7 +54,11 @@ const AnimatedSlideInner = observer((props: PropsT) => {
     gap: 100,
   });
   step2.update({
-    L: { child: <h1 className="title">Part 1</h1> },
+    L: {
+      child: <h1 className="title">Part 1</h1>,
+      // TODO: use dPickStyles, and constrain to use only one of color.* styles
+      pickStyles: ['root', 'color.green'],
+    },
     R: { child: <h1 className="title">Part 2</h1> },
   });
 
@@ -117,10 +119,11 @@ function createL() {
     width: 300,
     x: 0,
     y: 100,
-    layout: {
-      root: ['absolute', 'rectangle'],
+    styles: {
+      root: ['rectangle'],
       color: { green: 'green', blue: 'blue' },
     },
+    pickStyles: ['root', 'color.blue'],
   });
 }
 
@@ -131,9 +134,10 @@ function createR() {
     width: 300,
     x: 0,
     y: 100,
-    layout: {
-      root: ['absolute', 'rectangle'],
+    styles: {
+      root: ['rectangle'],
       color: { green: 'green', blue: 'blue' },
     },
+    pickStyles: ['root', 'color.blue'],
   });
 }

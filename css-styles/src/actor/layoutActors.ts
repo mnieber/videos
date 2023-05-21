@@ -1,7 +1,6 @@
 import * as R from 'ramda';
 import { ActorT } from '/src/actor/Actor';
-import { Container } from '/src/actor/container';
-import { deepCopy } from '/src/utils/deepCopy';
+import { Container } from '/src/actor/Container';
 
 type DirectionT = 'row' | 'col';
 type JustifyContentT =
@@ -24,8 +23,7 @@ export const layoutActors = (
   actors: ActorT[],
   direction?: DirectionT,
   options?: OptionsT
-): { [key: string]: ActorT } => {
-  actors = deepCopy(actors);
+) => {
   options = options ?? {};
 
   // Delegate the positioning of actors to private methods
@@ -60,7 +58,6 @@ export const layoutActors = (
       }
     }
   }
-  return R.indexBy(R.prop('name'), actors);
 };
 
 function _positionActorsRow(container: Container, actors: ActorT[]) {
