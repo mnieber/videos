@@ -8,14 +8,14 @@ import { useSlideModel } from '/src/slides/hooks/useSlideModel';
 import { StepFlipper } from '/src/steps/components/StepFlipper';
 import { cn } from '/src/utils/classnames';
 
-import './AnimatedSlide.scss';
+import './OverviewSlide.scss';
 
 export type PropsT = {};
 
-export const AnimatedSlide = observer((props: PropsT) => {
+export const OverviewSlide = observer((props: PropsT) => {
   return (
     <Slide id="animated-slide" className="grow" nrOfSteps={6}>
-      <StepFlipper className={cn('AnimatedSlide', L.col.banner(), 'grow')}>
+      <StepFlipper className={cn('OverviewSlide', L.col.banner(), 'grow')}>
         <AnimatedSlideInner {...props} />
       </StepFlipper>
     </Slide>
@@ -56,8 +56,7 @@ const AnimatedSlideInner = observer((props: PropsT) => {
   step2.update({
     L: {
       child: <h1 className="title">Part 1</h1>,
-      // TODO: use dPickStyles, and constrain to use only one of color.* styles
-      pickStyles: ['root', 'color.green'],
+      dPickStyles: ['color.greenDark'],
     },
     R: { child: <h1 className="title">Part 2</h1> },
   });
@@ -66,8 +65,16 @@ const AnimatedSlideInner = observer((props: PropsT) => {
   // L1 and L2 become visible
   const step3 = step2.copy();
   step3.update({
-    L1: { visible: true, posFrom: step3.actors.L },
-    L2: { visible: true, posFrom: step3.actors.L },
+    L1: {
+      visible: true,
+      posFrom: step3.actors.L,
+      dPickStyles: ['z.0', 'color.green'],
+    },
+    L2: {
+      visible: true,
+      posFrom: step3.actors.L,
+      dPickStyles: ['z.0', 'color.green'],
+    },
   });
 
   // 🔳 Step 4
@@ -76,7 +83,11 @@ const AnimatedSlideInner = observer((props: PropsT) => {
   step4.update({
     L1: { dy: 300 },
     L2: { dy: 600 },
-    R1: { visible: true, posFrom: step4.actors.R },
+    R1: {
+      visible: true,
+      posFrom: step4.actors.R,
+      dPickStyles: ['z.0', 'color.blue'],
+    },
   });
   step4.update({
     L1: { child: <h1 className="title">SCSS</h1> },
@@ -90,7 +101,7 @@ const AnimatedSlideInner = observer((props: PropsT) => {
     R1: { dy: 300 },
   });
   step5.update({
-    R1: { child: <h1 className="title">Custom solution</h1> },
+    R1: { child: <h1 className="title">Custom Solution</h1> },
   });
 
   return (
@@ -112,6 +123,13 @@ const AnimatedSlideInner = observer((props: PropsT) => {
   );
 });
 
+const colorStyles = {
+  green: 'bg-green-600',
+  greenDark: 'bg-green-800',
+  blue: 'bg-blue-600',
+  blueDark: 'bg-blue-800',
+};
+
 function createL() {
   return createActor({
     name: 'L',
@@ -121,9 +139,10 @@ function createL() {
     y: 100,
     styles: {
       root: ['rectangle'],
-      color: { green: 'green', blue: 'blue' },
+      color: colorStyles,
+      z: { 0: 'z-0', 10: 'z-10', 20: 'z-20' },
     },
-    pickStyles: ['root', 'color.blue'],
+    pickStyles: ['root', 'color.blueDark', 'z.10'],
   });
 }
 
@@ -136,8 +155,9 @@ function createR() {
     y: 100,
     styles: {
       root: ['rectangle'],
-      color: { green: 'green', blue: 'blue' },
+      color: colorStyles,
+      z: { 0: 'z-0', 10: 'z-10', 20: 'z-20' },
     },
-    pickStyles: ['root', 'color.blue'],
+    pickStyles: ['root', 'color.blueDark', 'z.10'],
   });
 }

@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
-import { AnimatedSlide } from '/src/content/components/AnimatedSlide';
 import { IntroSlide } from '/src/content/components/IntroSlide';
+import { OverviewSlide } from '/src/content/components/OverviewSlide';
 import { WelcomeSlide } from '/src/content/components/WelcomeSlide';
 import { ChapterList } from '/src/dashboard/components/ChapterList';
 import { DeckKeyHandler } from '/src/deck/components/DeckKeyHandler';
@@ -23,13 +23,9 @@ export const Dashboard = observer((props: PropsT) => {
           className={cn(L.col.banner(), 'w-[1920px] h-[1080px]')}
           autoFocus={true}
         >
-          {true && <AnimatedSlide />}
-          {false && (
-            <>
-              <WelcomeSlide />
-              <IntroSlide />
-            </>
-          )}
+          <OverviewSlide />
+          <WelcomeSlide />
+          <IntroSlide />
         </Presentation>
       </DeckKeyHandler>
       <ChapterList className="bg-red-400 h-[600px] w-[200px]" />
