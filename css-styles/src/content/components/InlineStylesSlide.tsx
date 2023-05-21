@@ -6,15 +6,15 @@ export type PropsT = {
   className?: any;
 };
 
-export const IntroSlide = observer((props: PropsT) => {
+export const InlineStylesSlide = observer((props: PropsT) => {
   return (
     <Slide id="Intro" nrOfSteps={2}>
-      <IntroSlideInner />
+      <InlineStylesSlideInner />
     </Slide>
   );
 });
 
-const IntroSlideInner = observer(() => {
+const InlineStylesSlideInner = observer(() => {
   const slideModel = useSlideModel();
   const step = slideModel.currentStepIndex;
 

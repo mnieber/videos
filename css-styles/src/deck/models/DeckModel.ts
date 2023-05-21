@@ -5,6 +5,7 @@ import { SlideModel } from '/src/slides/models/SlideModel';
 export class DeckModel {
   @observable slides: SlideModel[] = [];
   @observable currentSlideId: string | null = null;
+  @observable mousePos: number[] = [0, 0];
 
   constructor() {
     makeObservable(this);
@@ -16,6 +17,10 @@ export class DeckModel {
         this.currentSlide?.currentStepIndex
       );
     });
+  }
+
+  @action setMousePos(pos: number[]) {
+    this.mousePos = pos;
   }
 
   getSlide(slideId: string): SlideModel | undefined {

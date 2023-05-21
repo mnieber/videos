@@ -5,6 +5,7 @@ import './ModalContainer.scss';
 
 export type PropsT = React.PropsWithChildren<{
   autoFocus?: boolean;
+  onMouseMove?: (e: React.MouseEvent) => void;
   className?: any;
 }>;
 
@@ -17,7 +18,11 @@ const ModalContainer = (props: PropsT) => {
     : {};
 
   return (
-    <div className={cn('ModalContainer', props.className)} {...autoFocusProps}>
+    <div
+      className={cn('ModalContainer', props.className)}
+      {...autoFocusProps}
+      onMouseMove={props.onMouseMove}
+    >
       {props.children}
     </div>
   );

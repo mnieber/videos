@@ -10,10 +10,10 @@ export type PropsT = {
   className?: any;
 };
 
-export const WelcomeSlide = observer((props: PropsT) => {
+export const ScssSlide = observer((props: PropsT) => {
   return (
     <Slide id="Welcome" nrOfSteps={5}>
-      <WelcomeSlideInner />
+      <ScssSlideInner />
     </Slide>
   );
 });
@@ -25,7 +25,7 @@ I will explain why managing CSS is challenging, and why I believe that using inl
 In the second part, I will show my own approach for managing the styles, which uses both inline styles and SCSS files.
 `;
 
-const WelcomeSlideInner = observer((props: PropsT) => {
+const ScssSlideInner = observer((props: PropsT) => {
   const slideModel = useSlideModel();
   const step = slideModel.currentStepIndex;
 

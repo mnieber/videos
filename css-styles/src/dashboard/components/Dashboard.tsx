@@ -1,8 +1,9 @@
 import { observer } from 'mobx-react-lite';
-import { IntroSlide } from '/src/content/components/IntroSlide';
+import { InlineStylesSlide } from '/src/content/components/InlineStylesSlide';
 import { OverviewSlide } from '/src/content/components/OverviewSlide';
-import { WelcomeSlide } from '/src/content/components/WelcomeSlide';
+import { ScssSlide } from '/src/content/components/ScssSlide';
 import { ChapterList } from '/src/dashboard/components/ChapterList';
+import { MouseCoordsPanel } from '/src/dashboard/components/MouseCoordsPanel';
 import { DeckKeyHandler } from '/src/deck/components/DeckKeyHandler';
 import { Presentation } from '/src/deck/components/Presentation';
 import { L } from '/src/frames/layout';
@@ -24,11 +25,14 @@ export const Dashboard = observer((props: PropsT) => {
           autoFocus={true}
         >
           <OverviewSlide />
-          <WelcomeSlide />
-          <IntroSlide />
+          <ScssSlide />
+          <InlineStylesSlide />
         </Presentation>
       </DeckKeyHandler>
-      <ChapterList className="bg-red-400 h-[600px] w-[200px]" />
+      <div className={cn(L.col.banner())}>
+        <MouseCoordsPanel className="ml-4" />
+        <ChapterList className="bg-red-400 h-[600px] w-[200px]" />
+      </div>
     </div>
   );
 });
